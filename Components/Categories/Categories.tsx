@@ -47,8 +47,8 @@ const CategoryGrid = () => {
             src={category}
             alt=''
             layout="responsive"
-            width={100}
-            height={40}
+            width={200}
+            height={100}
             objectFit="cover"
             className="w-full h-full"
           />

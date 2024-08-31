@@ -5,6 +5,7 @@ import { MdAddLocation } from 'react-icons/md';
 import "./Header.css";
 import { FaCartPlus } from 'react-icons/fa';
 import { TfiMenu } from 'react-icons/tfi';
+import Link from 'next/link';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +33,7 @@ const Header = () => {
                             {/* Logo */}
                            
                            
-                            <h1 className="lg:text-xl md:text-xl lg:-ml-28 text-xl flex items-center justify-center gap-2 font-bold ml-2"> <button className="lg:block md:hidden hidden"> <TfiMenu  /></button>Jesha Shop</h1>
+                            <h1 className="lg:text-xl md:text-xl lg:-ml-28 text-xl flex items-center justify-center gap-2 font-bold ml-2"> <button className="lg:block md:hidden hidden"> <TfiMenu  /></button> <Link href={'/'}><span>Omi Shop</span></Link></h1>
                            
                                         <div className="lg:hidden md:hidden block">
                                         <div className="flex justify-between ">
@@ -79,9 +80,11 @@ const Header = () => {
                         {/* Desktop Login Button */}
                         <div className="hidden lg:ml-20 lg:-mr-32 lg:flex items-center gap-2">
                             <a className="text-orange-500" href="#">বাংলা</a> | <a href="#">English</a>
-                            <button className="text-gray-800 bg-gray-200 px-3 py-1 rounded-md">
+                            <Link href={"/login"}>
+                            <button className="text-gray-800 hover:bg-yellow-600 hover:text-black bg-gray-200 px-3 py-1 rounded-md">
                                 লগ ইন
                             </button>
+                            </Link>
                         </div>
                     </div>
                     <input type="text" className="w-full lg:w-[720px] lg:hidden md:hidden block py-2 pl-5 mt-1 pr-4 text-black  bg-gray-200 border rounded-md dark:text-gray-900 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300" placeholder="পণ্যের অনুসন্ধান করুন (যেমনঃ তেল, চাল, ডিম)" />
