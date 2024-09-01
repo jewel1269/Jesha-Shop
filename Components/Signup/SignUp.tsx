@@ -6,7 +6,7 @@ import axios from 'axios';
 import login from '../../Images/Login $ Regi/4498897.jpg';
 import Link from 'next/link';
 
-const LoginPage: React.FC = () => {
+const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -45,6 +45,20 @@ const LoginPage: React.FC = () => {
         <div className="w-full max-w-md">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center lg:text-left">Welcome Back</h2>
           <form className="space-y-6" onSubmit={handleSubmit}>
+          <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Name
+              </label>
+              <input
+                type="email"
+                placeholder='Enter Your Name'
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                required
+              />
+            </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email address
@@ -66,7 +80,6 @@ const LoginPage: React.FC = () => {
               <input
                 type="password"
                 placeholder='Password'
-                id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
@@ -108,10 +121,8 @@ const LoginPage: React.FC = () => {
             </div>
             </div>
             <div className="text-center mt-6">
-              <a  className="font-medium text-orange-600 hover:text-orange-500">
-                Don’t have an account? <Link href={"/signup"}>
-                <span className="hover:text-black">Signup</span>
-                </Link>
+              <a className="font-medium text-orange-600 hover:text-orange-500">
+                 have an account? <Link href={"/login"}><span className="hover:text-black">Login</span></Link>
               </a>
             </div>
           </form>
@@ -121,4 +132,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default Signup;
