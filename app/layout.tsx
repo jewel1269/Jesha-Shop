@@ -28,7 +28,7 @@ export default function RootLayout({
   <div className="lg:block md:block hidden lg:mt-16 "><Sidebar/></div>
   <div className="lg:ml-72 lg:mt-0 md:mt-8 mt-28">{children}</div>
 </div>
-<div className="">
+<div className="lg:ml-72 ">
  <Footer/>
 </div>
 

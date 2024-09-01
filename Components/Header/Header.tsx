@@ -21,6 +21,7 @@ const Header = () => {
     const handleLogout = async () => {
         try {
           await signOut(auth);
+          localStorage.removeItem('email');
           alert("আপনি সাইন আউট করেছেন।"); // Bengali message for successful logout
         } catch (error) {
           console.error("সাইন আউট করার সময় ত্রুটি:", error);
@@ -109,8 +110,8 @@ const Header = () => {
                            
                             :
                             <Link href={"/login"}>
-                            <button className="text-gray-800 hover:bg-yellow-600 hover:text-black bg-gray-200 px-3 py-1 rounded-md">
-                                লগ ইন
+                            <button className="text-white flex items-center hover:bg-yellow-600 hover:text-black bg-red-500 px-3 py-1 rounded-md">
+                            <FaSignOutAlt className="mr-2" />  লগ ইন
                             </button>
                             </Link>
                            }
@@ -123,9 +124,22 @@ const Header = () => {
                     {isOpen && (
                         <div className="lg:hidden mt-4 flex flex-col z-[120] gap-4">
                            
-                            <button className="text-gray-800 bg-gray-200 px-3 py-1 rounded-md">
-                                লগ ইন
+                           {
+                            user? 
+                            <button
+  onClick={handleLogout}
+  className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+>
+  <FaSignOutAlt className="mr-2" /> লগ আউট
+</button>
+                           
+                            :
+                            <Link href={"/login"}>
+                            <button className="text-white flex items-center hover:bg-yellow-600 hover:text-black bg-red-500 px-3 py-1 rounded-md">
+                            <FaSignOutAlt className="mr-2" />  লগ ইন
                             </button>
+                            </Link>
+                           }
                         </div>
                     )}
                 </div>

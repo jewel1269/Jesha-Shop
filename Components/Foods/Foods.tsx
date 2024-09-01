@@ -86,10 +86,10 @@ const Foods = () => {
         {products.map((product, index) => (
           <div key={index} className="border w-full p-4 h-72 rounded-xl shadow-lg text-center relative ">
             <Image
-            
+              width={500}
               src={product?.image}
               alt=""
-              height={40}
+              height={300}
               className="w-24 h-36 mx-auto mb-4 object-cover"
             />
             <h3 className="text-sm font-semibold mb-2">{product.name}</h3>

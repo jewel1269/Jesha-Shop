@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { SocialIcon } from 'react-social-icons';
@@ -13,33 +13,30 @@ import { FaGoogle, FaFacebook } from 'react-icons/fa';
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter()
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/data', { email, password });
       localStorage.setItem('email', email);
-      console.log('Login successful:', response.data);
-      
+      console.log('লগইন সফল:', response.data);
     } catch (error) {
-      console.error('Login failed:', error);
-    
+      console.error('লগইন ব্যর্থ:', error);
     }
   };
-
 
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      if(result.user){
-        localStorage.setItem('email', result.user?.email);
-        router.push('/')
+      if (user) {
+        localStorage.setItem('email', user.email || '');
+        router.push('/');
       }
-      console.log('Google login successful:', user);
+      console.log('গুগল লগইন সফল:', user);
     } catch (error) {
-      console.error('Google login failed:', error);
+      console.error('গুগল লগইন ব্যর্থ:', error);
     }
   };
 
@@ -48,21 +45,20 @@ const LoginPage: React.FC = () => {
       const result = await signInWithPopup(auth, facebookProvider);
       const user = result.user;
       localStorage.setItem('email', email);
-      console.log('Facebook login successful:', user);
+      console.log('ফেসবুক লগইন সফল:', user);
     } catch (error) {
-      console.error('Facebook login failed:', error);
+      console.error('ফেসবুক লগইন ব্যর্থ:', error);
     }
   };
 
   return (
-    <div className="flex flex-col lg:flex-row  bg-gray-50">
-      {/* Left section with image */}
-      <div className="flex w-full lg:w-1/2 justify-center items-center  p-10">
+    <div className="flex flex-col lg:flex-row bg-gray-50">
+      {/* বাম দিকের অংশ চিত্র সহ */}
+      <div className="flex w-full lg:w-1/2 justify-center items-center p-10">
         <div className="hidden md:block w-full">
-       
           <Image 
             src={login} 
-            alt="Dashboard Illustration" 
+            alt="ড্যাশবোর্ড ইলাস্ট্রেশন" 
             layout="responsive" 
             width={500} 
             height={400} 
@@ -70,19 +66,19 @@ const LoginPage: React.FC = () => {
           />
         </div>
       </div>
-      
-      {/* Right section with form */}
+
+      {/* ডান দিকের অংশ ফর্ম সহ */}
       <div className="flex w-full lg:w-1/2 justify-center items-center p-10">
         <div className="w-full max-w-md">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center lg:text-left">Welcome Back</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center lg:text-left">স্বাগতম</h2>
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
+                ইমেইল ঠিকানা
               </label>
               <input
                 type="email"
-                placeholder='Enter Your Email'
+                placeholder='আপনার ইমেইল লিখুন'
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -92,11 +88,11 @@ const LoginPage: React.FC = () => {
             </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
+                পাসওয়ার্ড
               </label>
               <input
                 type="password"
-                placeholder='Password'
+                placeholder='পাসওয়ার্ড'
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -112,12 +108,12 @@ const LoginPage: React.FC = () => {
                   className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                  Remember me
+                  আমাকে মনে রাখুন
                 </label>
               </div>
               <div className="text-sm">
                 <a href="#" className="font-medium text-orange-600 hover:text-orange-500">
-                  Forgot password?
+                  পাসওয়ার্ড ভুলে গেছেন?
                 </a>
               </div>
             </div>
@@ -126,11 +122,11 @@ const LoginPage: React.FC = () => {
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
               >
-                Login
+                লগইন
               </button>
             </div>
             <div className="mt-6 flex justify-center">
-              <p className="text-sm text-gray-600">Or Login with</p>
+              <p className="text-sm text-gray-600">অথবা লগইন করুন</p>
             </div>
             <div className="flex justify-center items-center">
               <div className="flex gap-4 mt-4 border p-2 divide-x-2 w-44 justify-center">
@@ -139,9 +135,9 @@ const LoginPage: React.FC = () => {
               </div>
             </div>
             <div className="text-center mt-6">
-              <a  className="font-medium text-orange-600 hover:text-orange-500">
-                Don’t have an account? <Link href={"/signup"}>
-                <span className="hover:text-black">Signup</span>
+              <a className="font-medium text-orange-600 hover:text-orange-500">
+                একটি অ্যাকাউন্ট নেই? <Link href={"/signup"}>
+                <span className="hover:text-black">সাইনআপ করুন</span>
                 </Link>
               </a>
             </div>

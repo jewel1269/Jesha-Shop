@@ -3,6 +3,8 @@ import HeroSlider from '../Hero-Slider/HeroSlider';
 import CategoryGrid from '../Categories/Categories';
 import Foods from '../Foods/Foods';
 import Electronics from '../Electronics/Electronics';
+import BodyHealth from '../BodyHealth/BodyHealth';
+import Mackup from '../Mackup/Mackup';
 
 
 const HomePage = () => {
@@ -12,6 +14,9 @@ const HomePage = () => {
             <CategoryGrid/>
             <Foods/>
             <Electronics/>
+            <BodyHealth/>
+            <Mackup/>
+
         </div>
     );
 };

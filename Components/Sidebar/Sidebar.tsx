@@ -8,15 +8,26 @@ import { BsPhone, BsTablet, BsWatch } from 'react-icons/bs';
 import { GiKitchenScale } from 'react-icons/gi';
 import Link from 'next/link';
 import "./Sidebar.css";
+import useAuth from '../UserAuth/useAuth';
 
 const Sidebar: React.FC = () => {
+
+  const {user}=useAuth()
+
   return (
     <div className="sidebar">
       <ul>
         <li>
-          <Link href="#">
-            <p className='flex items-center'><AiFillGift /> অফার</p>
-          </Link>
+         {
+          user ?  <Link href="/info">
+          <p className='flex items-center'><AiFillGift /> অফার</p>
+        </Link>
+        :
+        <Link href="/login">
+        <p className='flex items-center'><AiFillGift /> অফার</p>
+      </Link>
+      
+         }
         </li>
         <li>
           <Link href="#">
