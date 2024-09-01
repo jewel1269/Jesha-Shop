@@ -1,65 +1,68 @@
-import { createContext, useState, useEffect } from 'react';
+// import { createContext, useState, useEffect, ReactNode } from 'react';
+// import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup, onAuthStateChanged, User, AuthProvider as FirebaseAuthProvider } from 'firebase/auth';
+// import app from './../Firebase/Firebase';
 
 
-export const AuthContext = createContext(null);
 
-const auth = getAuth(app);
+// export const AuthContext = createContext(null);
 
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<any>(null);
-    const [loading, setLoading] = useState<any>(true);
+// const auth = getAuth(app);
 
-    const createUser = (email: any, password: any) => {
-        setLoading(true);
-        return createUserWithEmailAndPassword(auth, email, password);
-    };
+// const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+//     const [user, setUser] = useState<any>(null);
+//     const [loading, setLoading] = useState<any>(true);
 
-    const signIn = (email: any, password: any) => {
-        setLoading(true);
-        return signInWithEmailAndPassword(auth, email, password);
-    };
+//     const createUser = (email: any, password: any) => {
+//         setLoading(true);
+//         return createUserWithEmailAndPassword(auth, email, password);
+//     };
 
-    const logOut = () => {
-        setLoading(true);
-        return signOut(auth);
-    };
+//     const signIn = (email: any, password: any) => {
+//         setLoading(true);
+//         return signInWithEmailAndPassword(auth, email, password);
+//     };
 
-    const googleLogin = (googleProvider: any) => {
-        setLoading(true);
-        return signInWithPopup(auth, googleProvider);
-    };
+//     const logOut = () => {
+//         setLoading(true);
+//         return signOut(auth);
+//     };
 
-    const FacebookLogin = (githubProvider: any) => {
-        setLoading(true);
-        return signInWithPopup(auth, githubProvider);
-    };
+//     const googleLogin = (googleProvider: any) => {
+//         setLoading(true);
+//         return signInWithPopup(auth, googleProvider);
+//     };
 
-    useEffect(() => {
-        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            setLoading(false);
-        });
+//     const FacebookLogin = (githubProvider: any) => {
+//         setLoading(true);
+//         return signInWithPopup(auth, githubProvider);
+//     };
 
-        return () => {
-            unSubscribe();
-        };
-    }, []);
+//     useEffect(() => {
+//         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+//             setUser(currentUser);
+//             setLoading(false);
+//         });
 
-    const allInfo = {
-        createUser,
-        googleLogin,
-        FacebookLogin,
-        signIn,
-        logOut,
-        user,
-        loading,
-    };
+//         return () => {
+//             unSubscribe();
+//         };
+//     }, []);
 
-    return (
-        <AuthContext.Provider value={allInfo}>
-            {children}
-        </AuthContext.Provider>
-    );
-};
+//     const allInfo:any = {
+//         createUser,
+//         googleLogin,
+//         FacebookLogin,
+//         signIn,
+//         logOut,
+//         user,
+//         loading,
+//     };
 
-export default AuthProvider;
+//     return (
+//         <AuthContext.Provider value={allInfo}>
+//             {children}
+//         </AuthContext.Provider>
+//     );
+// };
+
+// export default AuthProvider;

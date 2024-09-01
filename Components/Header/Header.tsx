@@ -3,12 +3,30 @@ import { useState } from 'react';
 import { GrMenu } from 'react-icons/gr';
 import { MdAddLocation } from 'react-icons/md';
 import "./Header.css";
-import { FaCartPlus } from 'react-icons/fa';
+import { FaCartPlus, FaSignOutAlt } from 'react-icons/fa';
 import { TfiMenu } from 'react-icons/tfi';
 import Link from 'next/link';
+import useAuth from '../UserAuth/useAuth';
+import { signOut } from 'firebase/auth';
+import { auth } from '../Firebase/Firebase';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { user, loading } = useAuth();
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+ 
+    const handleLogout = async () => {
+        try {
+          await signOut(auth);
+          alert("আপনি সাইন আউট করেছেন।"); // Bengali message for successful logout
+        } catch (error) {
+          console.error("সাইন আউট করার সময় ত্রুটি:", error);
+          alert("সাইন আউট করার সময় একটি ত্রুটি ঘটেছে।");
+        }
+      };
 
     return (
         <div>
@@ -80,11 +98,22 @@ const Header = () => {
                         {/* Desktop Login Button */}
                         <div className="hidden lg:ml-20 lg:-mr-32 lg:flex items-center gap-2">
                             <a className="text-orange-500" href="#">বাংলা</a> | <a href="#">English</a>
+                           {
+                            user? 
+                            <button
+  onClick={handleLogout}
+  className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+>
+  <FaSignOutAlt className="mr-2" /> লগ আউট
+</button>
+                           
+                            :
                             <Link href={"/login"}>
                             <button className="text-gray-800 hover:bg-yellow-600 hover:text-black bg-gray-200 px-3 py-1 rounded-md">
                                 লগ ইন
                             </button>
                             </Link>
+                           }
                         </div>
                     </div>
                     <input type="text" className="w-full lg:w-[720px] lg:hidden md:hidden block py-2 pl-5 mt-1 pr-4 text-black  bg-gray-200 border rounded-md dark:text-gray-900 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300" placeholder="পণ্যের অনুসন্ধান করুন (যেমনঃ তেল, চাল, ডিম)" />
@@ -93,8 +122,7 @@ const Header = () => {
                     {/* Mobile Menu */}
                     {isOpen && (
                         <div className="lg:hidden mt-4 flex flex-col z-[120] gap-4">
-                            {/* Mobile Search Input */}
-                            {/* Mobile Login Button */}
+                           
                             <button className="text-gray-800 bg-gray-200 px-3 py-1 rounded-md">
                                 লগ ইন
                             </button>

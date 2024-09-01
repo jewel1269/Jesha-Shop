@@ -5,10 +5,15 @@ import { SocialIcon } from 'react-social-icons';
 import axios from 'axios';
 import login from '../../Images/Login $ Regi/4498897.jpg';
 import Link from 'next/link';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, facebookProvider, googleProvider } from '../Firebase/Firebase';
+import { useRouter } from 'next/navigation';
+import { FaGoogle, FaFacebook } from 'react-icons/fa';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +25,32 @@ const LoginPage: React.FC = () => {
     } catch (error) {
       console.error('Login failed:', error);
     
+    }
+  };
+
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      if(result.user){
+        localStorage.setItem('email', result.user?.email);
+        router.push('/')
+      }
+      console.log('Google login successful:', user);
+    } catch (error) {
+      console.error('Google login failed:', error);
+    }
+  };
+
+  const handleFacebookLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, facebookProvider);
+      const user = result.user;
+      localStorage.setItem('email', email);
+      console.log('Facebook login successful:', user);
+    } catch (error) {
+      console.error('Facebook login failed:', error);
     }
   };
 
@@ -102,10 +133,10 @@ const LoginPage: React.FC = () => {
               <p className="text-sm text-gray-600">Or Login with</p>
             </div>
             <div className="flex justify-center items-center">
-            <div className="flex gap-4 mt-4 border p-2 divide-x-2 w-44   justify-center">
-              <SocialIcon url="https://google.com" style={{ height: 35, width: 35 }} />
-              <SocialIcon url="https://facebook.com" style={{ height: 35, width: 35 }} />
-            </div>
+              <div className="flex gap-4 mt-4 border p-2 divide-x-2 w-44 justify-center">
+                <FaGoogle onClick={handleGoogleLogin} className="cursor-pointer text-red-600" size={35} />
+                <FaFacebook onClick={handleFacebookLogin} className="cursor-pointer text-blue-600" size={35} />
+              </div>
             </div>
             <div className="text-center mt-6">
               <a  className="font-medium text-orange-600 hover:text-orange-500">
