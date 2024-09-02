@@ -112,7 +112,7 @@ const Signup: React.FC = () => {
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">মনে রাখুন</label>
               </div>
               <div className="text-sm">
-                <a href="#" className="font-medium text-orange-600 hover:text-orange-500">পাসওয়ার্ড ভুলে গেছেন?</a>
+                <a href="/" className="font-medium text-orange-600 hover:text-orange-500">পাসওয়ার্ড ভুলে গেছেন?</a>
               </div>
             </div>
             <div>

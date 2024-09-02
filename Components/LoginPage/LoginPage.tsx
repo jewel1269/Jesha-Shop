@@ -9,6 +9,7 @@ import { signInWithPopup } from 'firebase/auth';
 import { auth, facebookProvider, googleProvider } from '../Firebase/Firebase';
 import { useRouter } from 'next/navigation';
 import { FaGoogle, FaFacebook } from 'react-icons/fa';
+import toast, { Toaster } from 'react-hot-toast';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -31,6 +32,7 @@ const LoginPage: React.FC = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       if (user) {
+        toast.success('Successfully Login!')
         localStorage.setItem('email', user.email || '');
         router.push('/');
       }
@@ -56,6 +58,7 @@ const LoginPage: React.FC = () => {
       {/* বাম দিকের অংশ চিত্র সহ */}
       <div className="flex w-full lg:w-1/2 justify-center items-center p-10">
         <div className="hidden md:block w-full">
+        <Toaster />
           <Image 
             src={login} 
             alt="ড্যাশবোর্ড ইলাস্ট্রেশন" 
@@ -112,7 +115,7 @@ const LoginPage: React.FC = () => {
                 </label>
               </div>
               <div className="text-sm">
-                <a href="#" className="font-medium text-orange-600 hover:text-orange-500">
+                <a href="/" className="font-medium text-orange-600 hover:text-orange-500">
                   পাসওয়ার্ড ভুলে গেছেন?
                 </a>
               </div>

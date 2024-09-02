@@ -2,6 +2,15 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { FaChevronDown, FaBars } from 'react-icons/fa';
+import img from "../../Images/Foods/fgog0100102l250.jpg"
+import img1 from "../../Images/Foods/nestle-nido-fortigrow-full-cream-milk-powder-_tin_-1kg.jpg"
+import img2 from "../../Images/Health/hbpc0300212l180.jpg"
+import img3 from "../../Images/Mackup/bio_active_lip_therapy_aloe_vera_3.2ml.jpg"
+import img4 from "../../Images/Mackup/whatsapp_image_2022-11-16_at_2.40.42_pm.jpeg"
+import img5 from "../../Images/Health/simple_kind_to_skin_hydrating_light_moisturizer_125ml.jpg"
+import img6 from "../../Images/mobile-ja-1420en.jpg"
+import img7 from "../../Images/Screenshot 2024-08-22 201447.png"
+import img8 from "../../Images/Foods/tang_jar_orange_flavor_750gm_1.jpg"
 
 const products = [
   {
@@ -9,7 +18,7 @@ const products = [
     name: 'Black Seed Honey/কালোজিরা মধু (৫০০ গ্রাম)',
     price: 800,
     oldPrice: 1000,
-    imageUrl: '/images/black-seed-honey.png',
+    imageUrl: img,
     isOnSale: true,
   },
   {
@@ -17,7 +26,7 @@ const products = [
     name: 'Egyptian Medjool Dates - 1 kg (Large)',
     price: 2000,
     oldPrice: 2000,
-    imageUrl: '/images/medjool-dates.png',
+    imageUrl: img1,
     isOnSale: false,
   },
   {
@@ -25,7 +34,7 @@ const products = [
     name: 'Chia Seeds/চিয়া সীড - Honey Comb Pack',
     price: 1500,
     oldPrice: 2000,
-    imageUrl: '/images/chia-seeds-combo.png',
+    imageUrl: img2,
     isOnSale: true,
   },
   {
@@ -33,7 +42,7 @@ const products = [
     name: 'Black Seed Honey/কালোজিরা মধু (৫০০ গ্রাম)',
     price: 800,
     oldPrice: 1000,
-    imageUrl: '/images/black-seed-honey.png',
+    imageUrl: img3,
     isOnSale: true,
   },
   {
@@ -41,7 +50,7 @@ const products = [
     name: 'Egyptian Medjool Dates - 1 kg (Large)',
     price: 2000,
     oldPrice: 2000,
-    imageUrl: '/images/medjool-dates.png',
+    imageUrl: img4,
     isOnSale: false,
   },
   {
@@ -49,7 +58,7 @@ const products = [
     name: 'Chia Seeds/চিয়া সীড - Honey Comb Pack',
     price: 1500,
     oldPrice: 2000,
-    imageUrl: '/images/chia-seeds-combo.png',
+    imageUrl: img5,
     isOnSale: true,
   },
   {
@@ -57,7 +66,7 @@ const products = [
     name: 'Black Seed Honey/কালোজিরা মধু (৫০০ গ্রাম)',
     price: 800,
     oldPrice: 1000,
-    imageUrl: '/images/black-seed-honey.png',
+    imageUrl: img6,
     isOnSale: true,
   },
   {
@@ -65,7 +74,7 @@ const products = [
     name: 'Egyptian Medjool Dates - 1 kg (Large)',
     price: 2000,
     oldPrice: 2000,
-    imageUrl: '/images/medjool-dates.png',
+    imageUrl: img7,
     isOnSale: false,
   },
   {
@@ -73,7 +82,7 @@ const products = [
     name: 'Chia Seeds/চিয়া সীড - Honey Comb Pack',
     price: 1500,
     oldPrice: 2000,
-    imageUrl: '/images/chia-seeds-combo.png',
+    imageUrl: img8,
     isOnSale: true,
   },
   // Add more products as necessary
@@ -81,6 +90,8 @@ const products = [
 
 const ProductInfo: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const [ammount, setAmmount ]=useState(0)
   
 
   return (
@@ -143,16 +154,23 @@ const ProductInfo: React.FC = () => {
           {/* Price Filter */}
           <div className="bg-gray-100 p-4 rounded">
             <h3 className="font-bold mb-2">Price</h3>
-            <input type="range" className="w-full" />
+            <input
+              type="range"
+              className="w-full"
+              value={ammount}
+              onChange={(e) => setAmmount(parseInt(e.target.value))}
+              min="0"
+              max="10000"
+            />
             <div className="flex justify-between text-sm mt-2">
-              <span>৳0</span>
-              <span>৳19200.00</span>
+              <span>৳{ammount}</span>
+              <span>৳10000.00</span>
             </div>
           </div>
         </div>
 
         {/* Product Listing */}
-        <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product) => (
             <div key={product.id} className="border rounded-lg shadow-md p-4 relative">
               {product.isOnSale && (

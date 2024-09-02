@@ -16,7 +16,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <div className="sidebar">
-      <ul>
+      <ul className=''>
         <li>
          {
           user ?  <Link href="/info">

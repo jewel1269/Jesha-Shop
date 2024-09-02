@@ -46,7 +46,7 @@ const ProductDetail: React.FC = () => {
               <li>উচ্চমান</li>
             </ul>
             <p className="text-sm mt-4">📦 বর্ধিত ডেলিভারি - শনিবার ৭ই সেপ্টেম্বর</p>
-            <p className="text-sm mt-2">বিক্রেতা: <a href="#" className="text-blue-500">টয় হাউস</a></p>
+            <p className="text-sm mt-2">বিক্রেতা: <a href="/" className="text-blue-500">টয় হাউস</a></p>
           </div>
         </div>
       </div>

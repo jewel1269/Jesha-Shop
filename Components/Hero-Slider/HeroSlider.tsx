@@ -24,10 +24,8 @@ const HeroSlider: React.FC = () => {
           delay: 3000, // Adjust the delay as needed
           disableOnInteraction: false, // Continue autoplay after user interactions
         }}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Pagination, Autoplay]}
+        
+        modules={[ Autoplay]}
         className="mySwiper mb-24"
       >
         <SwiperSlide>

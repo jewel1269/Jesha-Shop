@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
           <p className="text-sm mt-4">বাড়ি ৩, রোড ৯/বি<br />
             নিকুঞ্জ-১, খিলক্ষেত<br />
             ঢাকা ১২২৯, বাংলাদেশ</p>
-          <p className="text-sm mt-4">ইমেল: <a href="mailto:support@sindabad.com" className="text-blue-500">support@Jesha-Shop.com</a></p>
+          <p className="text-sm mt-4">ইমেল: <a href="mailto:support@Jesha-Shop.com" className="text-blue-500">support@Jesha-Shop.com</a></p>
           <p className="text-sm mt-2">ট্রেড লাইসেন্স নং: TRAD/DNCC/028947/2022</p>
         </div>
 
