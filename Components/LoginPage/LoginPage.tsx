@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/data', { email, password });
+      const response = await axios.post('http://localhost:5000/customer', { email, password });
       localStorage.setItem('email', email);
       console.log('লগইন সফল:', response.data);
     } catch (error) {
@@ -34,6 +34,7 @@ const LoginPage: React.FC = () => {
       if (user) {
         toast.success('Successfully Login!')
         localStorage.setItem('email', user.email || '');
+       
         router.push('/');
       }
       console.log('গুগল লগইন সফল:', user);

@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -6,6 +5,7 @@ import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import Sidebar from "@/Components/Sidebar/Sidebar";
 import { Toaster } from 'react-hot-toast';
+import QueryClientProviderWrapper from "@/Provider/QueryClientProviderWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <QueryClientProviderWrapper>
 <div className=" lg:w-full lg:mb-3 ">
   <Header/>
   <Toaster/>
@@ -35,7 +36,7 @@ export default function RootLayout({
  <Footer/>
 </div>
 
-
+</QueryClientProviderWrapper>
 
       </body>
     </html>
