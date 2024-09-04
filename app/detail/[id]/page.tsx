@@ -1,29 +1,47 @@
+"use client"
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import img from "../../Images/Foods/all-mobile-web2423.jpg";
+import img from "../../../Images/Brand/cat2861.jpg"
 import { FaLongArrowAltLeft } from 'react-icons/fa';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
-const ProductDetail: React.FC = () => {
+
+const fetchPostById = async (id: any) => {
+    const { data } = await axios.get(`http://localhost:5000/public/${id}`);
+    return data;
+  };
+
+const ProductDetail: React.FC = ({ params }: any) => {
+
+    const { data: product, error, isLoading } = useQuery({
+        queryKey: ['food', params.id],
+        queryFn: () => fetchPostById(params.id), 
+    });
+
+    console.log(product);
+    
+      if (isLoading) return <div>Loading...</div>;
+      if (error) return <div>Error: {error.message}</div>;
+ 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex flex-wrap justify-between items-start">
-        {/* Back Link */}
-        <Link href="/products">
-          <p className="text-gray-600 flex items-center justify-center text-xl  mb-4">
-            <Link href={'/'}>
-              <FaLongArrowAltLeft />
-            </Link>
-            পেছনে
-          </p>
-        </Link>
+        <div className="flex items-center justify-center mb-10">
+        <div className='bg-orange-500 shadow-lg lg:w-40 rounded-xl  py-2 shadow-black'>
+            <h1 className='text-center text-white'>পণ্যের বিস্তারিত</h1>
+        </div>
+        </div>
+      <div className="lg:flex flex-wrap justify-between items-start">
+        
+ 
 
         {/* Product Image and Info */}
-        <div className="flex w-full lg:w-2/3">
+        <div className="lg:flex w-full  ">
           {/* Product Image */}
-          <div className="w-1/2 pr-4">
+          <div className="lg:w-1/2 w-full  pr-4">
             <Image 
-              src={img}
+              src={product?.Image}
               alt="পণ্য চিত্র"
               width={300}
               height={300}
@@ -46,7 +64,7 @@ const ProductDetail: React.FC = () => {
               <li>উচ্চমান</li>
             </ul>
             <p className="text-sm mt-4">📦 বর্ধিত ডেলিভারি - শনিবার ৭ই সেপ্টেম্বর</p>
-            <p className="text-sm mt-2">বিক্রেতা: <a href="/" className="text-blue-500">টয় হাউস</a></p>
+            <p className="text-sm mt-2">বিক্রেতা: <Link href="/" className="text-blue-500">টয় হাউস</Link></p>
           </div>
         </div>
       </div>

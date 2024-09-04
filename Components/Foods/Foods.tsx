@@ -33,7 +33,7 @@ const Foods = () => {
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:px-4 md:px-0 px-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {products?.slice(0, 7).map((product: any, index: any) => (
           <div key={index} className="border w-full p-4 h-72 rounded-xl shadow-lg text-center relative">
-           <Link href={`/Components/ProductDetails/${product?._id}`}>
+           <Link href={`/detail/${product?._id}`}>
            <Image
               width={500}
               height={300}
