@@ -14,7 +14,7 @@ const fetchPosts = async () => {
     return data;
   };
 
-const AllFoods: React.FC = () => {
+const AllElectronics: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const [ammount, setAmmount ]=useState(0)
@@ -137,4 +137,4 @@ const AllFoods: React.FC = () => {
   );
 };
 
-export default AllFoods;
+export default AllElectronics;
