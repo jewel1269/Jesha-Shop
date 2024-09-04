@@ -4,26 +4,36 @@ import Image from 'next/image';
 import axios from 'axios';
 import login from '../../Images/Login $ Regi/4498897.jpg';
 import Link from 'next/link';
-import { signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, facebookProvider, googleProvider } from '../Firebase/Firebase';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const router = useRouter();
 
-  const handleSubmit:any = async (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/data', { email, password });
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
       localStorage.setItem('email', email);
-      console.log('লগইন সফল:', response.data);
+      toast.success('লগইন সফল হয়েছে!');
+  
+      console.log('লগইন সফল:', user);
     } catch (error) {
       console.error('লগইন ব্যর্থ:', error);
+      toast.error('লগইন ব্যর্থ হয়েছে!');
     }
   };
+  
+
+  console.log(name, email, password)
 
   const handleGoogleLogin = async () => {
     try {
@@ -32,10 +42,14 @@ const Signup: React.FC = () => {
       if (user) {
         localStorage.setItem('email', user.email || '');
         router.push('/');
+  
+        // গুগল লগইন সফল হলে টোস্ট মেসেজ দেখান
+        toast.success('গুগল লগইন সফল হয়েছে!');
       }
       console.log('গুগল লগইন সফল:', user);
     } catch (error) {
       console.error('গুগল লগইন ব্যর্থ:', error);
+      toast.error('গুগল লগইন ব্যর্থ হয়েছে!');
     }
   };
 
@@ -73,8 +87,7 @@ const Signup: React.FC = () => {
                 type="text"
                 placeholder='আপনার নাম লিখুন'
                 id="name"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                 required
               />

@@ -9,10 +9,10 @@ import Link from 'next/link';
 
 
 
-const fetchPosts = async () => {
-    const { data } = await axios.get('http://localhost:5000/public/food');
-    return data;
-  };
+const fetchData = async () => {
+  const { data } = await axios.get('http://localhost:5000/public/electronics');
+  return data;
+};
 
 const AllElectronics: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -21,7 +21,7 @@ const AllElectronics: React.FC = () => {
 
   const { data: products = [], error, isLoading } = useQuery({
     queryKey: ['allfoods'],
-    queryFn: fetchPosts,
+    queryFn: fetchData,
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -32,7 +32,7 @@ const AllElectronics: React.FC = () => {
     <div className="container mx-auto">
       {/* Header */}
       <div className="bg-orange-500 text-white rounded-xl shadow-lg shadow-black text-center py-3">
-        <h1 className="text-2xl font-bold">খাদ্য ও মুড়ি সামগ্রী</h1>
+        <h1 className="text-2xl font-bold">ইলেক্ট্রনিক্স </h1>
       </div>
 
       <div className="flex flex-col md:flex-row p-6">
@@ -107,7 +107,7 @@ const AllElectronics: React.FC = () => {
         <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.slice(0, 15).map((product:any) => (
             <div key={product.id} className="border rounded-lg shadow-md p-4 relative">
-              <Link href={`/detail/${product._id}`}>
+              <Link href={`/eletronics/${product._id}`}>
               {product.isOnSale && (
                 <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
                   ON SALE

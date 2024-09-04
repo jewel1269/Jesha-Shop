@@ -25,9 +25,11 @@ const Electronics = () => {
     <div className="container mx-auto lg:ml-0 md:ml-0 ml-2">
       <div className="flex justify-between">
         <h1 className='lg:ml-5 font-bold text-xl md:ml-0 ml-3'>মোবাইল ও ট্যাবলেট</h1>
-        <p className='flex items-center justify-center lg:mr-10 mr-4'>
-          সব দেখুন <MdSkipNext />
-        </p>
+        <Link href="/allelectronics">
+          <p className='flex items-center justify-center hover:text-orange-500 hover:shadow hover:cursor-pointer hover:shadow-black lg:mr-10 mr-4'>
+            সব দেখুন <MdSkipNext />
+          </p>
+        </Link>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:px-4 md:px-0 px-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {products?.slice(0, 9).map((product: any, index: any) => (

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { GrMenu } from "react-icons/gr";
 import { MdAddLocation } from "react-icons/md";
 import "./Header.css";
-import { FaCartPlus, FaSignOutAlt } from "react-icons/fa";
+import { FaCartPlus, FaShoppingCart, FaSignOutAlt } from "react-icons/fa";
 import { TfiMenu } from "react-icons/tfi";
 import Link from "next/link";
 import useAuth from "../UserAuth/useAuth";
@@ -20,11 +20,33 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+
+const fetchPostByEmail = async (email: any) => {
+  const { data } = await axios.get(`http://localhost:5000/cart/${email}`);
+  return data;
+};
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, loading } = useAuth();
   const [location, setLocation] = useState<any>("");
+
+  console.log(user, "user");
+
+  //cart data fetching
+  const {
+    data: product,
+    error,
+    isLoading,
+    
+  } = useQuery({
+    queryKey: ["carts", user?.email],
+    queryFn: () => fetchPostByEmail(user?.email ),
+  });
+
+  console.log(product, "cart data");
 
   if (loading) {
     return (
@@ -61,8 +83,7 @@ const Header = () => {
     try {
       await signOut(auth);
       localStorage.removeItem("email");
-      toast.success('আপনি সাইন আউট করেছেন!');
-      
+      toast.success("আপনি সাইন আউট করেছেন!");
     } catch (error) {
       console.error("সাইন আউট করার সময় ত্রুটি:", error);
       alert("সাইন আউট করার সময় একটি ত্রুটি ঘটেছে।");
@@ -108,10 +129,36 @@ const Header = () => {
 
               <h1 className="lg:text-xl md:text-xl text-xl flex items-center justify-center gap-2 font-bold lg:-ml-28 ml-2">
                 <button className="lg:block md:hidden hidden">
-                  <TfiMenu />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="text-orange-600 ">
+                      {user ? (
+                        <Image
+                          width={96}
+                          height={96}
+                          className="h-8 w-8 rounded-md"
+                          src={user?.photoURL}
+                          alt="user"
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="border divide-y-2 p-2 bg-white">
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        <span className="text-lg">প্রোফাইল</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </button>
                 <Link href={"/"}>
-                <Image width={300} height={200} src={logo} alt="logo" className="lg:h-8 h-6 w-full"  />
+                  <Image
+                    width={300}
+                    height={200}
+                    src={logo}
+                    alt="logo"
+                    className="lg:h-8 h-6 w-full"
+                  />
                 </Link>
               </h1>
 
@@ -149,10 +196,10 @@ const Header = () => {
                     </DropdownMenu>
                   </div>
 
-                  <div className=" bg-yellow-600 ml-20 rounded-2xl p-1">
+                  <div className=" ml-20 rounded-2xl ">
                     <div className="flex items-center  justify-around">
-                      <FaCartPlus className="text-white" />
-                      <span>0</span>
+                      <FaCartPlus className="text-orange-500" />
+                      <span>({product?.length})</span>
                     </div>
                   </div>
                 </div>
@@ -215,6 +262,15 @@ const Header = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
+
+              <div className="fixed lg:block md:hidden hidden ml-[1420px] mt-[800px]">
+              <div className='flex  items-center bg-orange-500 text-white py-2 px-4 rounded-xl'>
+            <FaShoppingCart className="mr-2" />
+            <p className='mr-2'>Cart</p>
+            <p>({product?.length})</p>
+        </div>
+              </div>
+       
             </div>
 
             {/* Desktop Login Button */}
@@ -251,17 +307,35 @@ const Header = () => {
               {user ? (
                 <button
                   onClick={handleLogout}
-                  className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                  className="flex items-center px-4 py-2 bg-red-500 hover:bg-orange-500 text-white rounded-md "
                 >
                   <FaSignOutAlt className="mr-2" /> লগ আউট
                 </button>
               ) : (
                 <Link href={"/login"}>
-                  <button className="text-white flex items-center hover:bg-yellow-600 hover:text-black bg-red-500 px-3 py-1 rounded-md">
+                  <button className="text-white flex items-center  hover:bg-yellow-600 hover:text-black bg-red-500 px-3 py-1 rounded-md">
                     <FaSignOutAlt className="mr-2" /> লগ ইন
                   </button>
                 </Link>
               )}
+              <div>
+              {user ? (
+                   <div className="flex gap-2 items-center px-2 py-1 hover:bg-orange-500 bg-red-500 text-white rounded-md">
+                     <Image
+                      width={96}
+                      height={96}
+                      className="h-8 w-8 rounded-md"
+                      src={user?.photoURL}
+                      alt="user"
+                    />
+                    <p className="text-md ">
+                    প্রোফাইল
+                    </p>
+                   </div>
+                  ) : (
+                    ""
+                  )}
+              </div>
             </div>
           )}
         </div>

@@ -15,8 +15,8 @@ const Sidebar: React.FC = () => {
   const {user}=useAuth()
 
   return (
-    <div className="sidebar divide-y-0">
-      <ul className=''>
+    <div className="sidebar">
+      <ul className='divide-y-2'>
         <li>
          {
           user ?  <Link href="/info">

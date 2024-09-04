@@ -1,4 +1,5 @@
 "use client";
+
 import Image from 'next/image';
 import React from 'react';
 import img0 from "../../Images/Foods/all-mobile-web2423.jpg";
@@ -6,6 +7,8 @@ import { MdSkipNext } from 'react-icons/md';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
+import useAuth from '../UserAuth/useAuth';
 
 // Define the query function
 const fetchPosts = async () => {
@@ -14,10 +17,27 @@ const fetchPosts = async () => {
 };
 
 const Foods = () => {
-  const { data: products = [], error, isLoading } = useQuery({
+  const { user, loading } = useAuth();
+  
+
+  const { data: products = [], error, isLoading,  refetch  } = useQuery({
     queryKey: ['food'],
     queryFn: fetchPosts,
+
   });
+  const email = user?.email;
+  const handleCart = async (item: any) => {
+    try {
+      const response = await axios.post('http://localhost:5000/cart', { item , email});
+      console.log('Response:', response.data);
+      refetch()
+      toast.success('কার্টে আইটেম যোগ করা সফল!');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('কার্টে আইটেম যোগ করা ব্যর্থ!');
+    }
+  };
+  
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -26,28 +46,35 @@ const Foods = () => {
     <div className="container mx-auto lg:ml-0 md:ml-0 ml-2">
       <div className="flex justify-between">
         <h1 className='lg:ml-5 font-bold text-xl md:ml-0 ml-3'>খাদ্য ও মুড়ি সামগ্রী</h1>
-        <Link href={"/allfood"}>
-        <p className='flex items-center justify-center hover:text-orange-500 hover:shadow hover:cursor-pointer hover:shadow-black lg:mr-10 mr-4'>সব দেখুন <MdSkipNext /></p>
+        <Link href="/allfood">
+          <p className='flex items-center justify-center hover:text-orange-500 hover:shadow hover:cursor-pointer hover:shadow-black lg:mr-10 mr-4'>
+            সব দেখুন <MdSkipNext />
+          </p>
         </Link>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:px-4 md:px-0 px-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {products?.slice(0, 7).map((product: any, index: any) => (
-          <div key={index} className="border w-full p-4 h-72 rounded-xl shadow-lg text-center relative">
-           <Link href={`/detail/${product?._id}`}>
-           <Image
-              width={500}
-              height={300}
-              src={product?.Image} // Fallback image in case product.image is undefined
-              alt={product.name || "Product Image"}
-              className="w-24 h-36 mx-auto mb-4 object-cover"
-            />
-            <h3 className="text-sm font-semibold mb-2">{product?.Name}</h3>
-            
-              <p className="text-sm text-gray-500 line-through">৳ {product.Price?.Old}</p>
-           
+        {products?.slice(0, 7).map((product: any) => (
+          <div key={product._id} className="border w-full p-4 h-72 rounded-xl shadow-lg text-center relative">
+            <Link href={`/detail/${product._id}`}>
+              <>
+                <Image
+                  width={500}
+                  height={300}
+                  src={product?.Image || '/fallback-image.jpg'} // Fallback image in case product.Image is undefined
+                  alt={product.name || "Product Image"}
+                  className="w-24 h-36 mx-auto mb-4 object-cover"
+                />
+                <h3 className="text-sm font-semibold mb-2">{product?.Name}</h3>
+                <p className="text-sm text-gray-500 line-through">৳ {product.Price?.Old}</p>
+              </>
+            </Link>
             <p className="text-lg text-red-500 font-bold">৳ {product.Price?.New}</p>
-            <button className="bg-yellow-400 text-white px-4 py-2 rounded-full absolute bottom-4 right-4">+</button>
-           </Link>
+            <button
+              onClick={() => handleCart(product)}
+              className="bg-yellow-400 text-xl hover:text-red-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-full absolute bottom-4 right-4"
+            >
+              +
+            </button>
           </div>
         ))}
       </div>
