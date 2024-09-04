@@ -15,7 +15,7 @@ const Sidebar: React.FC = () => {
   const {user}=useAuth()
 
   return (
-    <div className="sidebar">
+    <div className="sidebar divide-y-0">
       <ul className=''>
         <li>
          {
@@ -55,22 +55,18 @@ const Sidebar: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="#">
+          <Link href="/allelectronics">
             <p className='flex items-center'><GiKitchenScale /> ইলেক্ট্রনিক্স ও যন্ত্রপাতি</p>
           </Link>
         </li>
         <li>
-          <Link href="#">
+          <Link href="/allelectronics">
             <p className='flex items-center'><FaMobileAlt /> মোবাইল ও আনুষাঙ্গিক</p>
           </Link>
         </li>
+    
         <li>
-          <Link href="#">
-            <p className='flex items-center'><BsPhone /> মোবাইল ফোন</p>
-          </Link>
-        </li>
-        <li>
-          <Link href="#">
+          <Link href="/allelectronics">
             <p className='flex items-center'><BsTablet /> ট্যাবলেট</p>
           </Link>
         </li>
@@ -85,7 +81,7 @@ const Sidebar: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="#">
+          <Link href="/allelectronics">
             <p className='flex items-center'><FaMobileAlt /> মোবাইল ফোন এডাপ্টরস ও ক্যাবলস</p>
           </Link>
         </li>

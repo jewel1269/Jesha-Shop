@@ -1,10 +1,11 @@
+import AllElectronics from '@/Components/AllElectronics/AllElectronics';
 import React from 'react';
 
 
 const page = () => {
     return (
         <div>
-            <AllEletronics/>
+            <AllElectronics/>
         </div>
     );
 };
