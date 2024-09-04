@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { FaChevronDown, FaBars } from 'react-icons/fa';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 
 
 
@@ -104,8 +105,9 @@ const AllFoods: React.FC = () => {
 
         {/* Product Listing */}
         <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product:any) => (
+          {products.slice(0, 15).map((product:any) => (
             <div key={product.id} className="border rounded-lg shadow-md p-4 relative">
+              <Link href={`/detail/${product._id}`}>
               {product.isOnSale && (
                 <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
                   ON SALE
@@ -126,6 +128,7 @@ const AllFoods: React.FC = () => {
               <button className="mt-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
                 Quick Add
               </button>
+              </Link>
             </div>
           ))}
         </div>

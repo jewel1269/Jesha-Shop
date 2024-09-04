@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 // Define the query function
 const fetchPosts = async () => {
-  const { data } = await axios.get('http://localhost:5000/public');
+  const { data } = await axios.get('http://localhost:5000/public/food');
   return data;
 };
 

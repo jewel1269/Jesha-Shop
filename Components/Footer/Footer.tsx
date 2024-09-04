@@ -11,7 +11,7 @@ import { FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-white py-8 border-t">
+    <footer className="bg-white lg:ml-0 md:ml-0 ml-3 py-8 border-t">
       <div className="container mx-auto flex flex-wrap justify-between text-gray-800">
         {/* Left Section */}
         <div className="w-full sm:w-1/2 md:w-1/4 mb-6">
@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
       {/* Bottom Section */}
       <div className="bg-gray-100 py-4">
         <div className="container mx-auto text-center text-gray-600">
-        <div className="mb-4 flex justify-center">
+        <div className=" flex justify-center">
               <Link href="#">
                 <p className="inline-block mx-2 text-gray-600 hover:text-blue-600">
                   <FaFacebookF className="h-6 w-6" />
