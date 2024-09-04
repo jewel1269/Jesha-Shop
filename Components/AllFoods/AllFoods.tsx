@@ -2,103 +2,36 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { FaChevronDown, FaBars } from 'react-icons/fa';
-import img from "../../Images/Foods/fgog0100102l250.jpg"
-import img1 from "../../Images/Foods/nestle-nido-fortigrow-full-cream-milk-powder-_tin_-1kg.jpg"
-import img2 from "../../Images/Health/hbpc0300212l180.jpg"
-import img3 from "../../Images/Mackup/bio_active_lip_therapy_aloe_vera_3.2ml.jpg"
-import img4 from "../../Images/Mackup/whatsapp_image_2022-11-16_at_2.40.42_pm.jpeg"
-import img5 from "../../Images/Health/simple_kind_to_skin_hydrating_light_moisturizer_125ml.jpg"
-import img6 from "../../Images/mobile-ja-1420en.jpg"
-import img7 from "../../Images/Screenshot 2024-08-22 201447.png"
-import img8 from "../../Images/Foods/tang_jar_orange_flavor_750gm_1.jpg"
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
-const products = [
-  {
-    id: 1,
-    name: 'Black Seed Honey/কালোজিরা মধু (৫০০ গ্রাম)',
-    price: 800,
-    oldPrice: 1000,
-    imageUrl: img,
-    isOnSale: true,
-  },
-  {
-    id: 2,
-    name: 'Egyptian Medjool Dates - 1 kg (Large)',
-    price: 2000,
-    oldPrice: 2000,
-    imageUrl: img1,
-    isOnSale: false,
-  },
-  {
-    id: 3,
-    name: 'Chia Seeds/চিয়া সীড - Honey Comb Pack',
-    price: 1500,
-    oldPrice: 2000,
-    imageUrl: img2,
-    isOnSale: true,
-  },
-  {
-    id: 1,
-    name: 'Black Seed Honey/কালোজিরা মধু (৫০০ গ্রাম)',
-    price: 800,
-    oldPrice: 1000,
-    imageUrl: img3,
-    isOnSale: true,
-  },
-  {
-    id: 2,
-    name: 'Egyptian Medjool Dates - 1 kg (Large)',
-    price: 2000,
-    oldPrice: 2000,
-    imageUrl: img4,
-    isOnSale: false,
-  },
-  {
-    id: 3,
-    name: 'Chia Seeds/চিয়া সীড - Honey Comb Pack',
-    price: 1500,
-    oldPrice: 2000,
-    imageUrl: img5,
-    isOnSale: true,
-  },
-  {
-    id: 1,
-    name: 'Black Seed Honey/কালোজিরা মধু (৫০০ গ্রাম)',
-    price: 800,
-    oldPrice: 1000,
-    imageUrl: img6,
-    isOnSale: true,
-  },
-  {
-    id: 2,
-    name: 'Egyptian Medjool Dates - 1 kg (Large)',
-    price: 2000,
-    oldPrice: 2000,
-    imageUrl: img7,
-    isOnSale: false,
-  },
-  {
-    id: 3,
-    name: 'Chia Seeds/চিয়া সীড - Honey Comb Pack',
-    price: 1500,
-    oldPrice: 2000,
-    imageUrl: img8,
-    isOnSale: true,
-  },
-  // Add more products as necessary
-];
 
-const ProductInfo: React.FC = () => {
+
+
+const fetchPosts = async () => {
+    const { data } = await axios.get('http://localhost:5000/public');
+    return data;
+  };
+
+const AllFoods: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const [ammount, setAmmount ]=useState(0)
+
+  const { data: products = [], error, isLoading } = useQuery({
+    queryKey: ['allfoods'],
+    queryFn: fetchPosts,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   
 
   return (
     <div className="container mx-auto">
       {/* Header */}
-      <div className="bg-orange-500 text-white rounded-xl shadow-lg shadow-black  text-center py-3">
-        <h1 className="text-2xl font-bold">অফার</h1>
+      <div className="bg-orange-500 text-white rounded-xl shadow-lg shadow-black text-center py-3">
+        <h1 className="text-2xl font-bold">খাদ্য ও মুড়ি সামগ্রী</h1>
       </div>
 
       <div className="flex flex-col md:flex-row p-6">
@@ -171,7 +104,7 @@ const ProductInfo: React.FC = () => {
 
         {/* Product Listing */}
         <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {products.map((product:any) => (
             <div key={product.id} className="border rounded-lg shadow-md p-4 relative">
               {product.isOnSale && (
                 <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
@@ -179,16 +112,16 @@ const ProductInfo: React.FC = () => {
                 </span>
               )}
               <Image
-                src={product.imageUrl}
-                alt={product.name}
+                src={product.Image}
+                alt={product.Name}
                 width={150}
                 height={150}
                 className="object-contain mx-auto"
               />
-              <h3 className="mt-4 text-lg font-semibold">{product.name}</h3>
+              <h3 className="mt-4 text-lg font-semibold">{product.Name}</h3>
               <p className="mt-2 text-red-500 font-bold">
-                ৳{product.price}{' '}
-                <span className="line-through text-gray-500">৳{product.oldPrice}</span>
+                ৳{product.Price?.New}{' '}
+                <span className="line-through text-gray-500">৳{product.Price?.Old}</span>
               </p>
               <button className="mt-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
                 Quick Add
@@ -201,4 +134,4 @@ const ProductInfo: React.FC = () => {
   );
 };
 
-export default ProductInfo;
+export default AllFoods;

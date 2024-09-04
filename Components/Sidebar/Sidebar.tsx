@@ -35,7 +35,7 @@ const Sidebar: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="#">
+          <Link href="/allfood">
             <p className='flex items-center'><FaBox /> খাদ্য ও মুদি সামগ্রী</p>
           </Link>
         </li>
