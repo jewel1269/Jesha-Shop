@@ -29,10 +29,10 @@ const AllElectronics: React.FC = () => {
   
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto lg:-mt-12">
       {/* Header */}
-      <div className="bg-orange-500 text-white rounded-xl shadow-lg shadow-black text-center py-3">
-        <h1 className="text-2xl font-bold">ইলেক্ট্রনিক্স </h1>
+      <div className=" text-black rounded-xl shadow-sm shadow-black text-center py-2">
+        <h1 className="text-xl font-bold">ইলেক্ট্রনিক্স </h1>
       </div>
 
       <div className="flex flex-col md:flex-row p-6">

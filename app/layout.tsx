@@ -6,6 +6,7 @@ import Footer from "@/Components/Footer/Footer";
 import Sidebar from "@/Components/Sidebar/Sidebar";
 import { Toaster } from 'react-hot-toast';
 import QueryClientProviderWrapper from "@/Provider/QueryClientProviderWrapper";
+import CartIcon from "@/Components/CartIcon/CartIcon";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
 </div>
 <div className="grid lg:grid-cols-1 gap-0 md:grid-cols-2 grid-cols-1">
   <div className="lg:block md:block hidden lg:mt-16 "><Sidebar/></div>
+  <div className="lg:block md:block hidden lg:mt-16 "><CartIcon/></div>
   <div className="lg:ml-72 lg:mt-0 md:mt-8 mt-28">{children}</div>
 </div>
 

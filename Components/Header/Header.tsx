@@ -263,16 +263,6 @@ const Header = () => {
                 </DropdownMenu>
               </div>
 
-              <div className="fixed lg:block md:hidden hidden ml-[1420px] mt-[800px]">
-              <Link href={"/cartdetails"}>
-              <div className='flex  items-center bg-orange-500 text-white py-2 px-4 rounded-xl'>
-            <FaShoppingCart className="mr-2" />
-            <p className='mr-2'>Cart</p>
-            <p>({product?.length})</p>
-        </div>
-              </Link>
-              </div>
-       
             </div>
 
             {/* Desktop Login Button */}

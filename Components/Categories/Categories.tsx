@@ -10,6 +10,7 @@ import img7 from "../../Images/Categories/rice-foodgrain.webp"
 
 import notice from "../../Images/Notice/static-ja-monthly-bazar-1420-450-EN.jpg"
 import { MdSkipNext } from 'react-icons/md';
+import Link from 'next/link';
 
 
 
@@ -70,7 +71,8 @@ const CategoryGrid = () => {
       
     </div>
     <div className="mt-4 lg:px-5 md:px-4 px-3">
-  <Image 
+ <Link href={"/allfood"}>
+ <Image 
     src={notice} 
     alt="Category Offer" 
     className="rounded-2xl mb-3 " 
@@ -79,6 +81,7 @@ const CategoryGrid = () => {
     height={20} 
     objectFit="cover" 
   />
+ </Link>
 </div>
 
     </div>

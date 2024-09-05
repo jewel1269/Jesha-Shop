@@ -25,7 +25,7 @@ const ProductDetail: React.FC = ({ params }: any) => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 ">
       <div className="flex items-center justify-center mb-10">
         <div className="bg-orange-500 shadow-lg lg:w-40 rounded-xl  py-2 shadow-black">
           <h1 className="text-center text-white">পণ্যের বিস্তারিত</h1>

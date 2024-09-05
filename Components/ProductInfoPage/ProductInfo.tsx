@@ -95,10 +95,10 @@ const ProductInfo: React.FC = () => {
   
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto lg:-mt-12 md:mt-0 mt-4">
       {/* Header */}
-      <div className="bg-orange-500 text-white rounded-xl shadow-lg shadow-black  text-center py-3">
-        <h1 className="text-2xl font-bold">অফার</h1>
+      <div className=" text-black rounded-xl shadow-sm shadow-black  text-center py-2">
+        <h1 className="text-xl font-bold">অফার</h1>
       </div>
 
       <div className="flex flex-col md:flex-row p-6">
@@ -190,7 +190,7 @@ const ProductInfo: React.FC = () => {
                 ৳{product.price}{' '}
                 <span className="line-through text-gray-500">৳{product.oldPrice}</span>
               </p>
-              <button className="mt-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
+              <button className="mt-4  text-black shadow-sm shadow-black  px-4 py-1 rounded hover:bg-orange-600">
                 Quick Add
               </button>
             </div>

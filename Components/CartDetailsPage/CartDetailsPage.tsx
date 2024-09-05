@@ -1,110 +1,220 @@
-"use client"
+"use client";
 import Image from 'next/image';
 import React, { useState } from 'react';
+import useAuth from '../UserAuth/useAuth';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import "./Cart.css"
+import toast from 'react-hot-toast';
 
-const CartDetailsPage = () => {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: 'Some name of item goes here nice',
-      size: 'XL',
-      color: 'blue',
-      brand: 'Gucci',
-      price: 1156.00,
-      imgSrc: '/path/to/image1.png', // Replace with actual image path
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: 'Product name goes here nice',
-      size: 'XL',
-      color: 'blue',
-      brand: 'Gucci',
-      price: 149.97,
-      imgSrc: '/path/to/image2.png',
-      quantity: 1,
-    },
-    {
-      id: 3,
-      name: 'Another name of some product goes just here',
-      size: 'XL',
-      color: 'blue',
-      brand: 'Tissot',
-      price: 98.00,
-      imgSrc: '/path/to/image3.png',
-      quantity: 1,
-    },
-  ]);
+// Fetch cart items by email
+const fetchPostByEmail = async (email: string) => {
+  const { data } = await axios.get(`http://localhost:5000/cart/${email}`);
+  return data;
+};
 
-  const handleRemove = (id: number) => {
-    setProducts(products.filter(product => product.id !== id));
+const CartDetailsPage: React.FC = () => {
+  const { user, loading } = useAuth();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [address, setAddress] = useState('');
+  const [deliveryMethod, setDeliveryMethod] = useState('');
+  const [deliveryCost, setDeliveryCost] = useState(0);
+
+  // Open and close modal
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+
+  // Handle address submission
+  const handleAddressSubmit = () => {
+    closeModal();
+    if (deliveryMethod === 'dhaka') {
+      setDeliveryCost(100);
+    } else if (deliveryMethod === 'outsideDhaka') {
+      setDeliveryCost(150);
+    }
   };
 
-  const totalPrice = products.reduce((total, product) => total + product.price * product.quantity, 0);
-  const discount = 658.00; // Example discount value
-  const finalPrice = totalPrice - discount;
+  // Fetch cart items with React Query
+  const {
+    data: items,
+    error,
+    isLoading,
+    isError,
+    refetch
+  } = useQuery({
+    queryKey: ['carts', user?.email],
+    queryFn: () => fetchPostByEmail(user?.email),
+    enabled: !!user?.email, // Only fetch if user email is available
+  });
+
+  // Calculate subtotal
+  const subtotal = items?.reduce((total: number, item: any) => total + (item.item?.Price.New || 0), 0) || 0;
+  const total = subtotal + deliveryCost;
+
+
+  //item remove
+  const handleDelete = async (id: any) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/cart/${id}`);
+  
+      if (response.status === 200) {
+        toast.success("আইটেম সফলভাবে মুছে ফেলা হয়েছে!"); // সফল মুছে ফেলার টোস্ট
+        console.log(response.data, "আইটেম সফলভাবে মুছে ফেলা হয়েছে");
+        refetch()
+      } else {
+        toast.error("আইটেম মুছে ফেলা সম্ভব হয়নি।"); // ত্রুটির জন্য টোস্ট
+        console.log("আইটেম মুছে ফেলা সম্ভব হয়নি");
+      }
+    } catch (error) {
+      toast.error("আইটেম মুছে ফেলার সময় একটি ত্রুটি ঘটেছে।"); // ত্রুটি হলে টোস্ট
+      console.error("আইটেম মুছে ফেলার সময় ত্রুটি:", error);
+    }
+  };
+
+  if (loading) {
+    return <p>লোড হচ্ছে...</p>;
+  }
+
+  if (isLoading) {
+    return <p>কার্টের তথ্য লোড হচ্ছে...</p>;
+  }
+
+  if (isError) {
+    return <p>কার্ট লোড করার সময় ত্রুটি: {error?.message}</p>;
+  }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
-      <div className="flex flex-col md:flex-row justify-between">
-        <div className="flex-1">
-          {products.map(product => (
-            <div key={product.id} className="flex items-center mb-4">
-              <Image width={300} height={250} src={product.imgSrc} alt={product.name} className="w-20 h-20 mr-4" />
-              <div className="flex-1">
-                <p className="text-lg font-semibold">{product.name}</p>
-                <p className="text-sm text-gray-500">Size: {product.size}, Color: {product.color}, Brand: {product.brand}</p>
-                <div className="flex items-center mt-2">
-                  <select
-                    value={product.quantity}
-                    onChange={(e) => {
-                      const newQuantity = parseInt(e.target.value);
-                      setProducts(products.map(p =>
-                        p.id === product.id ? { ...p, quantity: newQuantity } : p
-                      ));
-                    }}
-                    className="border border-gray-300 rounded-md mr-2 p-1"
-                  >
-                    {/* {[...Array(10).keys()].map(n => (
-                      <option key={n + 1} value={n + 1}>
-                        {n + 1}
-                      </option>
-                    ))} */}
-                  </select>
-                  <span className="font-bold text-lg">${product.price.toFixed(2)}</span>
-                  <button
-                    onClick={() => handleRemove(product.id)}
-                    className="ml-4 text-red-600 hover:text-red-800"
-                  >
-                    Remove
-                  </button>
-                </div>
+    <div className="lg:flex justify-between gap-4 p-6 bg-white lg:divide-x-2">
+      {/* Left side - Items */}
+      <div className="lg:w-2/3 w-full bg-white p-4 rounded">
+        <h2 className="text-2xl font-bold mb-4">আমার কার্ট ({items?.length || 0} আইটেম)</h2>
+        {items?.map((item: any, idx: number) => (
+          <div key={idx} className="flex gap-4 border-b py-4">
+            <Image
+              width={300}
+              height={250}
+              src={item.item?.Image}
+              alt={item.item.Name}
+              className="w-24 h-24 object-cover"
+            />
+            <div className="flex-1">
+              <h3 className="font-semibold">{item.item.Brand}</h3>
+              <p className="text-gray-600">{item.item?.Name}</p>
+              <p className="text-sm">রঙ: {item?.item.Element?.Color}</p>
+              {item.item?.Price.Old ? (
+                <p className="text-sm text-red-500">
+                  <del>৳{item.item?.Price.Old?.toFixed(2)}</del> ৳{item.item?.Price.New?.toFixed(2)}{' '}
+                  <span className="text-green-500">
+                    (আপনি সেভ করেছেন {((item.item?.Price.Old - item.item?.Price.New) / item.item?.Price.Old * 100)?.toFixed(0)}%)
+                  </span>
+                </p>
+              ) : (
+                <p className="text-sm">৳{item.item?.Price.New?.toFixed(2)}</p>
+              )}
+              <div className="flex items-center gap-2 mt-2">
+                <select className="border px-2 py-1 rounded" value={item.quantity}>
+                  {[...Array(item.item.stock)].map((_, i) => (
+                    <option key={i} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  ))}
+                </select>
+                <button onClick={()=>handleDelete(item._id)} className="text-red-500 hover:underline">রিমুভ</button>
               </div>
             </div>
-          ))}
-          <button className="text-blue-600 hover:underline">Continue shopping</button>
+          </div>
+        ))}
+      </div>
+
+      {/* Right side - Summary */}
+      <div className="lg:w-1/3 w-full bg-white p-4 rounded">
+        <h3 className="text-xl font-bold mb-4">মোট</h3>
+
+        {/* Delivery address input */}
+        <div className="flex justify-between text-sm mb-2">
+          <span>ডেলিভারি ঠিকানা</span>
+          {!address ? <button className="text-blue-500 hover:underline" onClick={openModal}>
+            ঠিকানা যোগ করুন
+          </button> :
+          <p>{address}</p>
+          }
+         
         </div>
-        <div className="flex-none w-full md:w-64 mt-6 md:mt-0">
-          <div className="bg-gray-100 p-4 rounded-md">
-            <p className="mb-2">Total price: <b>USD {totalPrice.toFixed(2)}</b></p>
-            <p className="mb-2">Discount: <b>USD {discount.toFixed(2)}</b></p>
-            <p className="text-xl font-bold mb-4">Total: USD {finalPrice.toFixed(2)}</p>
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="Coupon code"
-                className="border border-gray-300 rounded-md p-2 w-2/3"
-              />
-              <button className="ml-2 p-2 bg-blue-600 text-white rounded-md">Apply</button>
+
+        {/* Delivery method selection */}
+        {address && (
+          <div className="flex justify-between text-sm mb-2">
+            <span>ডেলিভারি পদ্ধতি</span>
+            <span>{deliveryMethod === 'dhaka' ? 'ঢাকার ভিতরে' : 'ঢাকার বাইরে'}</span>
+          </div>
+        )}
+
+        {/* Subtotal */}
+        <div className="flex justify-between text-sm mb-2">
+          <span>সাবটোটাল</span>
+          <span>৳{subtotal?.toFixed(2)}</span>
+        </div>
+
+        {/* Delivery cost */}
+        <div className="flex justify-between text-sm mb-2">
+          <span>ডেলিভারি চার্জ</span>
+          <span>৳{deliveryCost}</span>
+        </div>
+
+        {/* Total */}
+        <div className="flex justify-between text-lg font-bold mb-4">
+          <span>মোট (ভ্যাট সহ)</span>
+          <span>৳{total?.toFixed(2)}</span>
+        </div>
+        <button className="w-full bg-orange-500 hover:bg-green-500 text-white py-2 rounded">চেকআউট এ যান</button>
+      </div>
+
+      {/* Modal for address input */}
+      {modalIsOpen && (
+        <div className="fixed rounded-lg inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white w-[500px] h-[500px] p-6 rounded shadow-lg relative">
+            <button className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-800" onClick={closeModal}>
+              &times;
+            </button>
+            <h2 className="text-xl font-bold mb-4">ঠিকানা যোগ করুন</h2>
+            <input
+              type="text"
+              placeholder="ঠিকানা লিখুন"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="border px-4 py-6 w-full mb-4"
+            />
+            <div className="flex justify-between mb-4">
+              <label>
+                <input
+                  type="radio"
+                  value="dhaka"
+                  checked={deliveryMethod === 'dhaka'}
+                  onChange={() => setDeliveryMethod('dhaka')}
+                />
+                ঢাকার ভিতরে (৳100)
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="outsideDhaka"
+                  checked={deliveryMethod === 'outsideDhaka'}
+                  onChange={() => setDeliveryMethod('outsideDhaka')}
+                />
+                ঢাকার বাইরে (৳150)
+              </label>
             </div>
-            <button className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Make Purchase</button>
+            <button
+              className="w-full bg-green-500 text-white py-2 rounded"
+              onClick={handleAddressSubmit}
+            >
+              ঠিকানা সেভ করুন
+            </button>
           </div>
         </div>
-      </div>
-      <div className="bg-green-100 p-4 mt-6 rounded-md text-center">
-        Free Delivery within 1-2 weeks
-      </div>
+      )}
+
+
     </div>
   );
 };
