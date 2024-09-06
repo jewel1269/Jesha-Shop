@@ -48,8 +48,8 @@ const CartDetailsPage: React.FC = () => {
   });
 
   // Calculate subtotal
-  const subtotal = items?.reduce((total: number, item: any) => total + (item.item?.Price.New || 0), 0) || 0;
-  const total = subtotal + deliveryCost;
+  const subtotal = items?.reduce((total: number, item: any) => total + (item.item?.Price.New * item?.Quantity), 0) || 0;
+const total = subtotal + deliveryCost;
 
 
   //item remove
@@ -112,12 +112,8 @@ const CartDetailsPage: React.FC = () => {
                 <p className="text-sm">৳{item.item?.Price.New?.toFixed(2)}</p>
               )}
               <div className="flex items-center gap-2 mt-2">
-                <select className="border px-2 py-1 rounded" value={item.quantity}>
-                  {[...Array(item.item.stock)].map((_, i) => (
-                    <option key={i} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  ))}
+                <select className="border px-2 py-1 rounded" value={item.Quantity}>
+                 
                 </select>
                 <button onClick={()=>handleDelete(item._id)} className="text-red-500 hover:underline">রিমুভ</button>
               </div>

@@ -6,6 +6,8 @@ import { MdSkipNext } from 'react-icons/md';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
+import useAuth from '../UserAuth/useAuth';
 
 const fetchData = async () => {
   const { data } = await axios.get('http://localhost:5000/public/electronics');
@@ -13,10 +15,31 @@ const fetchData = async () => {
 };
 
 const Electronics = () => {
-  const { data: products = [], error, isLoading } = useQuery({
+  const { user, loading } = useAuth();
+  const { data: products = [], error, isLoading, refetch: refetchCart } = useQuery({
     queryKey: ['electronics'],
     queryFn: fetchData,
   });
+
+  const email = user?.email;
+  
+  const handleCart = async (item: any) => {
+    if (!email) {
+      toast.error('লগইন করুন কার্টে আইটেম যোগ করার জন্য!');
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:5000/cart', { item, email });
+      console.log('Response:', response.data);
+  
+      await refetchCart(); 
+  
+      toast.success('কার্টে আইটেম যোগ করা সফল!');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('কার্টে আইটেম যোগ করা ব্যর্থ!');
+    }
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -45,8 +68,9 @@ const Electronics = () => {
               <h3 className="text-sm font-semibold mb-2">{product?.Name}</h3>
               <p className="text-sm text-gray-500 line-through">৳ {product.Price?.Old}</p>
               <p className="text-lg text-red-500 font-bold">৳ {product.Price?.New}</p>
-              <button className="bg-yellow-400 text-white px-4 py-2 rounded-full absolute bottom-4 right-4">+</button>
-            </Link>
+              </Link>
+              <button onClick={()=>handleCart(product)} className="shadow-sm shadow-black hover:bg-yellow-600 hover:text-red-500 text-black px-3 text-xl py-1 rounded-full absolute bottom-4 right-4">+</button>
+            
           </div>
         ))}
       </div>

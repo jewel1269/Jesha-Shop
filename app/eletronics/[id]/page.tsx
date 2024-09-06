@@ -5,6 +5,8 @@ import Link from "next/link";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import useAuth from "@/Components/UserAuth/useAuth";
 
 const fetchPostById = async (id: any) => {
   const { data } = await axios.get(`http://localhost:5000/public/electronics/${id}`);
@@ -12,14 +14,37 @@ const fetchPostById = async (id: any) => {
 };
 
 const ProductDetail: React.FC = ({ params }: any) => {
+  const { user, loading } = useAuth();
+  const email = user?.email;
   const {
     data: product,
     error,
     isLoading,
+    refetch: refetchCart
   } = useQuery({
     queryKey: ["food", params.id],
     queryFn: () => fetchPostById(params.id),
   });
+
+
+  const handleCart = async (item: any) => {
+    if (!email) {
+      toast.error('লগইন করুন কার্টে আইটেম যোগ করার জন্য!');
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:5000/cart', { item, email });
+      console.log('Response:', response.data);
+  
+      await refetchCart(); 
+  
+      toast.success('কার্টে আইটেম যোগ করা সফল!');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('কার্টে আইটেম যোগ করা ব্যর্থ!');
+    }
+  };
+
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -61,7 +86,7 @@ const ProductDetail: React.FC = ({ params }: any) => {
                 {product?.Availability.InStock ? "স্টক আছে" : "স্টক নেই"}
               </p>
             </div>
-            <button className="bg-yellow-500 text-white px-6 py-2 rounded hover:bg-yellow-600">
+            <button onClick={()=>handleCart(product)} className="bg-yellow-500 text-white px-6 py-2 rounded hover:bg-yellow-600">
               কার্টে যোগ করুন
             </button>
             <ul className="text-sm list-disc mt-4 pl-4">

@@ -5,6 +5,8 @@ import { FaChevronDown, FaBars } from 'react-icons/fa';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import useAuth from '../UserAuth/useAuth';
+import toast from 'react-hot-toast';
 
 
 
@@ -16,13 +18,32 @@ const fetchData = async () => {
 
 const AllElectronics: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
   const [ammount, setAmmount ]=useState(0)
+  const { user } = useAuth();
+  const email = user?.email;
 
-  const { data: products = [], error, isLoading } = useQuery({
+  const { data: products = [], error, isLoading, refetch:refetchCart } = useQuery({
     queryKey: ['allfoods'],
     queryFn: fetchData,
   });
+
+  const handleCart = async (item: any) => {
+    if (!email) {
+      toast.error('লগইন করুন কার্টে আইটেম যোগ করার জন্য!');
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:5000/cart', { item, email });
+      console.log('Response:', response.data);
+  
+      await refetchCart();
+  
+      toast.success('কার্টে আইটেম যোগ করা সফল!');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('কার্টে আইটেম যোগ করা ব্যর্থ!');
+    }
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -125,10 +146,11 @@ const AllElectronics: React.FC = () => {
                 ৳{product.Price?.New}{' '}
                 <span className="line-through text-gray-500">৳{product.Price?.Old}</span>
               </p>
-              <button className="mt-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
-                Quick Add
-              </button>
               </Link>
+              <button onClick={()=>handleCart(product)} className="mt-4  shadow-sm shadow-black text-black px-4 py-1 rounded hover:bg-orange-600">
+                add Cart
+              </button>
+             
             </div>
           ))}
         </div>
