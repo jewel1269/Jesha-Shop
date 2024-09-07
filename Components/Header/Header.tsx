@@ -197,10 +197,12 @@ const Header = () => {
                   </div>
 
                   <div className=" ml-20 rounded-2xl ">
+                    <Link href={'/cartdetails'}>
                     <div className="flex items-center  justify-around">
                       <FaCartPlus className="text-orange-500" />
                       <span>({product?.length})</span>
                     </div>
+                    </Link>
                   </div>
                 </div>
               </div>
