@@ -4,8 +4,11 @@ import React, { useState } from 'react';
 import useAuth from '../UserAuth/useAuth';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import "./Cart.css"
+import "./Cart.css";
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+
+
 
 // Fetch cart items by email
 const fetchPostByEmail = async (email: string) => {
@@ -19,6 +22,7 @@ const CartDetailsPage: React.FC = () => {
   const [address, setAddress] = useState('');
   const [deliveryMethod, setDeliveryMethod] = useState('');
   const [deliveryCost, setDeliveryCost] = useState(0);
+  const router = useRouter();
 
   // Open and close modal
   const openModal = () => setModalIsOpen(true);
@@ -35,13 +39,7 @@ const CartDetailsPage: React.FC = () => {
   };
 
   // Fetch cart items with React Query
-  const {
-    data: items,
-    error,
-    isLoading,
-    isError,
-    refetch
-  } = useQuery({
+  const { data: items, error, isLoading, isError, refetch } = useQuery({
     queryKey: ['carts', user?.email],
     queryFn: () => fetchPostByEmail(user?.email),
     enabled: !!user?.email, // Only fetch if user email is available
@@ -49,34 +47,68 @@ const CartDetailsPage: React.FC = () => {
 
   // Calculate subtotal
   const subtotal = items?.reduce((total: number, item: any) => {
-    const price = item?.item?.Price?.New ;
-    const quantity = item?.Quantity ;
-    return total + (price * quantity); // No need for extra condition
+    const price = item?.item?.Price?.New || 0;
+    const quantity = item?.Quantity || 0;
+    return total + (price * quantity);
   }, 0) || 0;
-  
-  const total = subtotal + (deliveryCost || 0);
-  
-  
 
+  const total = subtotal + deliveryCost;
 
-  //item remove
+  // Handle item removal
   const handleDelete = async (id: any) => {
     try {
       const response = await axios.delete(`http://localhost:5000/cart/${id}`);
-  
       if (response.status === 200) {
-        toast.success("আইটেম সফলভাবে মুছে ফেলা হয়েছে!"); // সফল মুছে ফেলার টোস্ট
-        console.log(response.data, "আইটেম সফলভাবে মুছে ফেলা হয়েছে");
-        refetch()
+        toast.success("আইটেম সফলভাবে মুছে ফেলা হয়েছে!");
+        refetch();
       } else {
-        toast.error("আইটেম মুছে ফেলা সম্ভব হয়নি।"); // ত্রুটির জন্য টোস্ট
-        console.log("আইটেম মুছে ফেলা সম্ভব হয়নি");
+        toast.error("আইটেম মুছে ফেলা সম্ভব হয়নি।");
       }
     } catch (error) {
-      toast.error("আইটেম মুছে ফেলার সময় একটি ত্রুটি ঘটেছে।"); // ত্রুটি হলে টোস্ট
+      toast.error("আইটেম মুছে ফেলার সময় একটি ত্রুটি ঘটেছে।");
       console.error("আইটেম মুছে ফেলার সময় ত্রুটি:", error);
     }
   };
+
+  // Handle checkout
+  const handleCheckout = async () => {
+    if (!address || !deliveryMethod) {
+      toast.error("অনুগ্রহ করে ঠিকানা এবং ডেলিভারি পদ্ধতি নির্বাচন করুন।");
+      return;
+    }
+  
+    try {
+      const response = await axios.post('http://localhost:5000/private/checkout', {
+        user: user,
+        item: items,
+        address: address,
+        deliveryMethod: deliveryMethod,
+        total: total,
+      });
+  
+      if (response.status === 200) {
+        toast.success("চেকআউট সফল হয়েছে!");
+  
+        const redirectUrl = response.data?.paymentUrl;
+      
+  
+        // Check if redirectUrl exists and is a valid URL
+        if (redirectUrl && redirectUrl.startsWith('http')) {
+          console.log("Redirecting to:", redirectUrl);  
+          window.location.replace(redirectUrl);
+        } else {
+          toast.error("Invalid redirect URL");
+          console.error("Invalid redirectUrl:", redirectUrl);
+        }
+      } else {
+        toast.error("চেকআউট সফল হয়নি।");
+      }
+    } catch (error) {
+      toast.error("চেকআউটের সময় একটি ত্রুটি ঘটেছে।");
+      console.error("Checkout error:", error);
+    }
+  };
+  
 
   if (loading) {
     return <p>লোড হচ্ছে...</p>;
@@ -100,27 +132,27 @@ const CartDetailsPage: React.FC = () => {
             <Image
               width={300}
               height={250}
-              src={item.item?.Image}
-              alt={item.item.Name}
+              src={item.item?.Image || '/placeholder-image.jpg'}
+              alt={item.item?.Name || 'Product Image'}
               className="w-24 h-24 object-cover"
             />
             <div className="flex-1">
-              <h3 className="font-semibold">{item.item.Brand}</h3>
-              <p className="text-gray-600">{item.item?.Name}</p>
-              <p className="text-sm">রঙ: {item?.item.Element?.Color}</p>
-              {item.item?.Price.Old ? (
+              <h3 className="font-semibold">{item.item?.Brand || 'Unknown Brand'}</h3>
+              <p className="text-gray-600">{item.item?.Name || 'Unknown Product'}</p>
+              <p className="text-sm">রঙ: {item?.item.Element?.Color || 'N/A'}</p>
+              {item.item?.Price?.Old ? (
                 <p className="text-sm text-red-500">
-                  <del>৳{item.item?.Price.Old?.toFixed(2)}</del> ৳{item.item?.Price.New?.toFixed(2)}{' '}
+                  <del>৳{item.item.Price.Old.toFixed(2)}</del> ৳{item.item.Price.New.toFixed(2)}{' '}
                   <span className="text-green-500">
-                    (আপনি সেভ করেছেন {((item.item?.Price.Old - item.item?.Price.New) / item.item?.Price.Old * 100)?.toFixed(0)}%)
+                    (আপনি সেভ করেছেন {((item.item.Price.Old - item.item.Price.New) / item.item.Price.Old * 100).toFixed(0)}%)
                   </span>
                 </p>
               ) : (
-                <p className="text-sm">৳{item.item?.Price.New?.toFixed(2)}</p>
+                <p className="text-sm">৳{item.item.Price.New.toFixed(2)}</p>
               )}
               <div className="flex items-center gap-2 mt-2">
-                <p>Unit: {item?.Quantity}</p>
-                <button onClick={()=>handleDelete(item._id)} className="text-red-500 hover:underline">রিমুভ</button>
+                <p>Unit: {item?.Quantity || 0}</p>
+                <button onClick={() => handleDelete(item._id)} className="text-red-500 hover:underline">রিমুভ</button>
               </div>
             </div>
           </div>
@@ -134,12 +166,13 @@ const CartDetailsPage: React.FC = () => {
         {/* Delivery address input */}
         <div className="flex justify-between text-sm mb-2">
           <span>ডেলিভারি ঠিকানা</span>
-          {!address ? <button className="text-blue-500 hover:underline" onClick={openModal}>
-            ঠিকানা যোগ করুন
-          </button> :
-          <p>{address}</p>
-          }
-         
+          {!address ? (
+            <button className="text-blue-500 hover:underline" onClick={openModal}>
+              ঠিকানা যোগ করুন
+            </button>
+          ) : (
+            <p>{address}</p>
+          )}
         </div>
 
         {/* Delivery method selection */}
@@ -153,7 +186,7 @@ const CartDetailsPage: React.FC = () => {
         {/* Subtotal */}
         <div className="flex justify-between text-sm mb-2">
           <span>সাবটোটাল</span>
-          <span>৳{subtotal?.toFixed(2)}</span>
+          <span>৳{subtotal.toFixed(2)}</span>
         </div>
 
         {/* Delivery cost */}
@@ -165,15 +198,20 @@ const CartDetailsPage: React.FC = () => {
         {/* Total */}
         <div className="flex justify-between text-lg font-bold mb-4">
           <span>মোট (ভ্যাট সহ)</span>
-          <span>৳{total?.toFixed(2)}</span>
+          <span>৳{total.toFixed(2)}</span>
         </div>
-        <button className="w-full bg-orange-500 hover:bg-green-500 text-white py-2 rounded">চেকআউট এ যান</button>
+        <button
+          className="w-full bg-orange-500 hover:bg-green-500 text-white py-2 rounded"
+          onClick={handleCheckout}
+        >
+          চেকআউট এ যান
+        </button>
       </div>
 
       {/* Modal for address input */}
       {modalIsOpen && (
-        <div className="fixed rounded-lg inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white w-[500px] h-[500px] p-6 rounded shadow-lg relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white w-[500px] p-6 rounded shadow-lg relative">
             <button className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-800" onClick={closeModal}>
               &times;
             </button>
@@ -183,7 +221,7 @@ const CartDetailsPage: React.FC = () => {
               placeholder="ঠিকানা লিখুন"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="border px-4 py-6 w-full mb-4"
+              className="border px-4 py-2 w-full mb-4"
             />
             <div className="flex justify-between mb-4">
               <label>
@@ -214,8 +252,6 @@ const CartDetailsPage: React.FC = () => {
           </div>
         </div>
       )}
-
-
     </div>
   );
 };

@@ -40,7 +40,7 @@ const Sidebar: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="#">
+          <Link href="/allhealth">
             <p className='flex items-center'><AiFillMedicineBox /> ব্যক্তিগত স্বাস্থ্য ও সুরক্ষা</p>
           </Link>
         </li>
@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="#">
+          <Link href="/allhealth">
             <p className='flex items-center'><MdOutlineBabyChangingStation /> মাতা ও শিশু</p>
           </Link>
         </li>

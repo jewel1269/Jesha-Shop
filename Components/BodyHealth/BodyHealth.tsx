@@ -6,6 +6,7 @@ import { MdSkipNext } from 'react-icons/md';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../UserAuth/useAuth';
+import Link from 'next/link';
 
 
   // Define the query function for fetching health items
@@ -34,23 +35,27 @@ const BodyHealth = () => {
       
       <div className="flex justify-between">
       <h1 className='lg:ml-5 font-bold text-xl  md:ml-0 ml-3'>ব্যক্তিগত স্বাস্থ্য ও সুরক্ষা</h1>
-      <p className='flex items-center justify-center lg:mr-10 mr-4'>সব দেখুন <MdSkipNext />  </p>
+      <Link href="/allhealth">
+          <p className='flex items-center justify-center hover:text-orange-500 hover:shadow hover:cursor-pointer hover:shadow-black lg:mr-10 mr-4'>
+            সব দেখুন <MdSkipNext />
+          </p>
+        </Link>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:px-4 md:px-0 px-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {products.map((product:any, index:any) => (
+        {products.slice(0, 7).map((product:any, index:any) => (
           <div key={index} className="border w-full p-4 h-72 rounded-xl shadow-lg text-center relative ">
-            <Image
+           <Link href={`/health/${product?._id}`}> <Image
              width={500}
               src={product?.Image}
               alt=""
               height={300}
-              className="w-24 h-36 mx-auto mb-4 object-cover"
+              className="w-36 h-36 mx-auto mb-4 object-cover"
             />
             <h3 className="text-sm font-semibold mb-2">{product.Name}</h3>
             {product.Price?.Old && (
               <p className="text-sm text-gray-500 line-through">৳ {product.Price?.Old}</p>
             )}
-            <p className="text-lg text-red-500 font-bold">৳ {product.Price?.New}</p>
+            <p className="text-lg text-red-500 font-bold">৳ {product.Price?.New}</p></Link>
             <button className="bg-yellow-400 text-white px-4 py-2 rounded-full absolute bottom-4 right-4">+</button>
           </div>
         ))}

@@ -75,7 +75,8 @@ const Electronics = () => {
         ))}
       </div>
       <div className="mt-4 lg:px-5 md:px-4 px-3">
-        <Image
+       <Link href={"/allhealth"}>
+       <Image
           src={img0}
           alt="Foods Offer"
           className="rounded-2xl mb-3"
@@ -84,6 +85,7 @@ const Electronics = () => {
           height={20}
           objectFit="cover"
         />
+       </Link>
       </div>
     </div>
   );
