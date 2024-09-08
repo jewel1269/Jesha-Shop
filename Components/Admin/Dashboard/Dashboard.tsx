@@ -5,6 +5,10 @@ import logo from "../../../Images/download-removebg-preview.png"; // Ensure the 
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import HomePage from '../Home/HomePage';
+import OrderDetails from '../OrderDetails/OrderDetails';
+import AllUser from '../AllUser/AllUser';
+
 
 const Dashboard: FC = () => {
   return (
@@ -14,9 +18,9 @@ const Dashboard: FC = () => {
         <Image
           src={logo}
           alt="Logo"
-          width={50}  // Adjust size as necessary
-          height={50}
-          className="mr-2 h-8 w-16"
+          width={300}  // Adjust size as necessary
+          height={200}
+          className="mr-2 h-8 w-24"
         />
         <h1>Welcome to the Dashboard</h1>
       </div>
@@ -32,19 +36,25 @@ const Dashboard: FC = () => {
           <Tab>Title 7</Tab>
           <Tab>Title 8</Tab>
         </TabList>
+      {/* Admin Home page */}
+        <TabPanel>
+          <HomePage/>
+        </TabPanel>
+       {/* Order Details Page */}
+        <TabPanel>
+         <OrderDetails/>
+        </TabPanel>
 
-        <TabPanel>
-          <h2>Any content 1</h2>
-        </TabPanel>
-        <TabPanel>
-          <h2>Any content 2</h2>
-        </TabPanel>
+        {/* Admin Category Page */}
         <TabPanel>
           <h2>Any content 3</h2>
         </TabPanel>
+
+        {/* Admin All User Page */}
         <TabPanel>
-          <h2>Any content 4</h2>
+         <AllUser/>
         </TabPanel>
+
         <TabPanel>
           <h2>Any content 5</h2>
         </TabPanel>

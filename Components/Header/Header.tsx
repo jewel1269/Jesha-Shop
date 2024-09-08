@@ -150,7 +150,7 @@ const Header = () => {
                       <DropdownMenuItem>
                         <span className="text-md">প্রোফাইল</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem className="text-md">
                       {admin && (
       <Link href="/dashboard">
         <p className="text-md">Dashboard</p>
