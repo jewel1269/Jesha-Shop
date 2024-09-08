@@ -45,7 +45,7 @@ const Sidebar: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="#">
+          <Link href="allbeauty">
             <p className='flex items-center'><RiHealthBookLine /> রূপ ও নিত্য</p>
           </Link>
         </li>
@@ -61,18 +61,7 @@ const Sidebar: React.FC = () => {
         </li>
         <li>
           <Link href="/allelectronics">
-            <p className='flex items-center'><FaMobileAlt /> মোবাইল ও আনুষাঙ্গিক</p>
-          </Link>
-        </li>
-    
-        <li>
-          <Link href="/allelectronics">
-            <p className='flex items-center'><BsTablet /> ট্যাবলেট</p>
-          </Link>
-        </li>
-        <li>
-          <Link href="#">
-            <p className='flex items-center'><FaTv /> রেফ্রিজারেটর</p>
+            <p className='flex items-center'><FaMobileAlt /> মোবাইল ও ট্যাবলেট</p>
           </Link>
         </li>
         <li>
@@ -80,6 +69,12 @@ const Sidebar: React.FC = () => {
             <p className='flex items-center'><BsWatch /> স্মার্ট ওয়াচ</p>
           </Link>
         </li>
+        <li>
+          <Link href="#">
+            <p className='flex items-center'><FaTv /> রেফ্রিজারেটর</p>
+          </Link>
+        </li>
+        
         <li>
           <Link href="/allelectronics">
             <p className='flex items-center'><FaMobileAlt /> মোবাইল ফোন এডাপ্টরস ও ক্যাবলস</p>

@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../UserAuth/useAuth';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 
   // Define the query function for fetching health items
@@ -27,7 +28,24 @@ const BodyHealth = () => {
     queryFn: fetchPosts,
   });
 
- 
+  const handleCart = async (item: any) => {
+    if (!email) {
+      toast.error('লগইন করুন কার্টে আইটেম যোগ করার জন্য!');
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:5000/cart', { item, email });
+      console.log('Response:', response.data);
+  
+      await refetchCart(); 
+  
+      toast.success('কার্টে আইটেম যোগ করা সফল!');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('কার্টে আইটেম যোগ করা ব্যর্থ!');
+    }
+  };
+
 
 
   return (
@@ -56,12 +74,13 @@ const BodyHealth = () => {
               <p className="text-sm text-gray-500 line-through">৳ {product.Price?.Old}</p>
             )}
             <p className="text-lg text-red-500 font-bold">৳ {product.Price?.New}</p></Link>
-            <button className="bg-yellow-400 text-white px-4 py-2 rounded-full absolute bottom-4 right-4">+</button>
+            <button onClick={()=>handleCart(product)} className="bg-yellow-400 text-white px-4 py-2 rounded-full absolute bottom-4 right-4">+</button>
           </div>
         ))}
       </div>
       <div className="mt-4 lg:px-5 md:px-4 px-3">
-        <Image
+       <Link href={"/allbeauty"}>
+       <Image
           src={img0}
           alt="Foods Offer"
           className="rounded-2xl mb-3"
@@ -70,6 +89,7 @@ const BodyHealth = () => {
           height={20}
           objectFit="cover"
         />
+       </Link>
       </div>
     </div>
   );

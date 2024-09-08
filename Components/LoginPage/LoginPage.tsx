@@ -48,6 +48,7 @@ const LoginPage: React.FC = () => {
       const result = await signInWithPopup(auth, facebookProvider);
       const user = result.user;
       localStorage.setItem('email', email);
+      const response = await axios.post('')
       console.log('ফেসবুক লগইন সফল:', user);
     } catch (error) {
       console.error('ফেসবুক লগইন ব্যর্থ:', error);

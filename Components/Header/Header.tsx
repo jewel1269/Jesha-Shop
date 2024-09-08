@@ -35,6 +35,8 @@ const Header = () => {
 
   console.log(user, "user");
 
+  const admin = true
+
   //cart data fetching
   const {
     data: product,
@@ -146,7 +148,14 @@ const Header = () => {
                     <DropdownMenuContent className="border divide-y-2 p-2 bg-white">
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>
-                        <span className="text-lg">প্রোফাইল</span>
+                        <span className="text-md">প্রোফাইল</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                      {admin && (
+      <Link href="/dashboard">
+        <p className="text-md">Dashboard</p>
+      </Link>
+    )}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -314,21 +323,25 @@ const Header = () => {
               )}
               <div>
               {user ? (
-                   <div className="flex gap-2 items-center px-2 py-1 hover:bg-orange-500 bg-red-500 text-white rounded-md">
-                     <Image
-                      width={96}
-                      height={96}
-                      className="h-8 w-8 rounded-md"
-                      src={user?.photoURL}
-                      alt="user"
-                    />
-                    <p className="text-md ">
-                    প্রোফাইল
-                    </p>
-                   </div>
-                  ) : (
-                    ""
-                  )}
+  <div className="flex gap-2 items-center px-2 py-1 hover:bg-orange-500 bg-red-500 text-white rounded-md">
+    <Image
+      width={96}
+      height={96}
+      className="h-8 w-8 rounded-md"
+      src={user?.photoURL}
+      alt="user"
+    />
+    <p className="text-md">প্রোফাইল</p>
+    {admin && (
+      <Link href="/dashboard">
+        <p className="text-md">Dashboard</p>
+      </Link>
+    )}
+  </div>
+) : (
+  ""
+)}
+
               </div>
             </div>
           )}
