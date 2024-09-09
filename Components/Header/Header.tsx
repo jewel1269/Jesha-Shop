@@ -292,7 +292,7 @@ const Header = () => {
               ) : (
                 <Link href={"/login"}>
                   <button className="text-white flex items-center hover:bg-yellow-600 hover:text-black bg-red-500 px-3 py-1 rounded-md">
-                    <FaSignOutAlt className="mr-2" /> লগ ইন
+                    <FaSignOutAlt  className="mr-2" /> লগ ইন
                   </button>
                 </Link>
               )}

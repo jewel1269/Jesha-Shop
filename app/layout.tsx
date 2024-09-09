@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import QueryClientProviderWrapper from "@/Provider/QueryClientProviderWrapper";
 import CartIcon from "@/Components/CartIcon/CartIcon";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,6 +17,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+
+  
   
   children,
 }: Readonly<{

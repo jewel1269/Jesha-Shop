@@ -82,7 +82,7 @@ const Mackup = () => {
         ))}
       </div>
       <div className="mt-4 lg:px-5 md:px-4 px-3">
-       <Link href={''}>
+       <Link href={'/alltelivision'}>
        <Image
           src={img0}
           alt="Foods Offer"

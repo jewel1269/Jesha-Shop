@@ -1,103 +1,102 @@
 "use client";
 import React from 'react';
-import { FaTags, FaBox, FaMobileAlt, FaLaptop, FaTv, FaIndustry, FaTshirt, FaDumbbell } from 'react-icons/fa';
+import { FaTags, FaBox, FaMobileAlt, FaLaptop } from 'react-icons/fa';
 import { AiFillMedicineBox, AiFillGift } from 'react-icons/ai';
 import { RiHealthBookLine } from 'react-icons/ri';
 import { MdOutlineBabyChangingStation } from 'react-icons/md';
-import { BsPhone, BsTablet, BsWatch } from 'react-icons/bs';
+import { BsWatch } from 'react-icons/bs';
 import { GiKitchenScale } from 'react-icons/gi';
 import Link from 'next/link';
 import "./Sidebar.css";
 import useAuth from '../UserAuth/useAuth';
+import { usePathname } from 'next/navigation';
 
 const Sidebar: React.FC = () => {
+  const { user } = useAuth();
+  const pathname = usePathname();  
 
-  const {user}=useAuth()
+  // Function to determine if the current route is active
+  const isActive = (path: string) => pathname === path;
 
   return (
     <div className="sidebar">
       <ul className='divide-y-2'>
         <li>
-         {
-          user ?  <Link href="/info">
-          <p className='flex items-center'><AiFillGift /> অফার</p>
-        </Link>
-        :
-        <Link href="/login">
-        <p className='flex items-center'><AiFillGift /> অফার</p>
-      </Link>
-      
-         }
+          {user ? (
+            <Link href="/info">
+              <p className={`flex items-center ${isActive('/info') ? 'text-green-500' : ''}`}>
+                <AiFillGift color="gold" /> অফার
+              </p>
+            </Link>
+          ) : (
+            <Link href="/login">
+              <p className={`flex items-center ${isActive('/login') ? 'text-green-500' : ''}`}>
+                <AiFillGift color="gold" /> অফার
+              </p>
+            </Link>
+          )}
         </li>
         <li>
           <Link href="#">
-            <p className='flex items-center'><FaTags /> নিয়মিত</p>
+            <p className={`flex items-center ${isActive('#') ? 'text-green-500' : ''}`}>
+              <FaTags color="purple" /> নিয়মিত
+            </p>
           </Link>
         </li>
         <li>
           <Link href="/allfood">
-            <p className='flex items-center'><FaBox /> খাদ্য ও মুদি সামগ্রী</p>
+            <p className={`flex items-center ${isActive('/allfood') ? 'text-green-500' : ''}`}>
+              <FaBox color="orange" /> খাদ্য ও মুদি সামগ্রী
+            </p>
           </Link>
         </li>
         <li>
           <Link href="/allhealth">
-            <p className='flex items-center'><AiFillMedicineBox /> ব্যক্তিগত স্বাস্থ্য ও সুরক্ষা</p>
+            <p className={`flex items-center ${isActive('/allhealth') ? 'text-green-500' : ''}`}>
+              <AiFillMedicineBox color="red" /> ব্যক্তিগত স্বাস্থ্য ও সুরক্ষা
+            </p>
           </Link>
         </li>
         <li>
-          <Link href="allbeauty">
-            <p className='flex items-center'><RiHealthBookLine /> রূপ ও নিত্য</p>
+          <Link href="/allbeauty">
+            <p className={`flex items-center ${isActive('/allbeauty') ? 'text-green-500' : ''}`}>
+              <RiHealthBookLine color="blue" /> রূপ ও নিত্য
+            </p>
           </Link>
         </li>
         <li>
           <Link href="/allhealth">
-            <p className='flex items-center'><MdOutlineBabyChangingStation /> মাতা ও শিশু</p>
+            <p className={`flex items-center ${isActive('/allbabycare') ? 'text-green-500' : ''}`}>
+              <MdOutlineBabyChangingStation color="pink" /> মাতা ও শিশু
+            </p>
           </Link>
         </li>
         <li>
           <Link href="/allelectronics">
-            <p className='flex items-center'><GiKitchenScale /> ইলেক্ট্রনিক্স ও যন্ত্রপাতি</p>
+            <p className={`flex items-center ${isActive('/allelectronics') ? 'text-green-500' : ''}`}>
+              <GiKitchenScale color="teal" /> ইলেক্ট্রনিক্স ও যন্ত্রপাতি
+            </p>
           </Link>
         </li>
         <li>
           <Link href="/allelectronics">
-            <p className='flex items-center'><FaMobileAlt /> মোবাইল ও ট্যাবলেট</p>
+            <p className={`flex items-center ${isActive('/allelectronics') ? 'text-green-500' : ''}`}>
+              <FaMobileAlt color="lightblue" /> মোবাইল , ট্যাবলেট , এডাপ্টরস ও ক্যাবলস
+            </p>
           </Link>
         </li>
         <li>
-          <Link href="#">
-            <p className='flex items-center'><BsWatch /> স্মার্ট ওয়াচ</p>
+          <Link href="/allbabycare">
+            <p className={`flex items-center ${isActive('/allbabycare') ? 'text-green-500' : ''}`}>
+              <BsWatch color="purple" /> শিশুর যত্ন
+            </p>
           </Link>
         </li>
         <li>
-          <Link href="#">
-            <p className='flex items-center'><FaTv /> রেফ্রিজারেটর</p>
-          </Link>
-        </li>
-        
-        <li>
-          <Link href="/allelectronics">
-            <p className='flex items-center'><FaMobileAlt /> মোবাইল ফোন এডাপ্টরস ও ক্যাবলস</p>
-          </Link>
-        </li>
-        <li>
-          <Link href="#">
-            <p className='flex items-center'><FaLaptop /> কম্পিউটার ও আইটি</p>
-          </Link>
-        </li>
-        <li>
-          <Link href="#">
-            <p className='flex items-center'><FaIndustry /> শিল্প-কারখানার সামগ্রী</p>
-          </Link>
-        </li>
-        <li>
-          <Link href="#">
-            <p className='flex items-center'><FaTshirt /> ফ্যাশন ও লাইফস্টাইল</p>
-          </Link>
-        </li>
-        <li>
-          <Link href="#">
-            <p className='flex items-center'><FaDumbbell /> প্লেটস ও ফিটনেস</p>
+          <Link href="/alltelivision">
+            <p className={`flex items-center ${isActive('/alltelivision') ? 'text-green-500' : ''}`}>
+              <FaLaptop color="cyan" /> কম্পিউটার ও আইটি
+            </p>
           </Link>
         </li>
       </ul>
