@@ -12,40 +12,52 @@ import img8 from "../../Images/Brand/cat2957.jpg";
 import img9 from "../../Images/Brand/cat3076.jpg";
 import img10 from "../../Images/Brand/cat3093.jpg";
 import { MdSkipNext } from "react-icons/md";
+import Link from "next/link";
 
 const products = [
   {
     image: img,
+    link:"https://www.reckitt.com/"
   },
   {
     image: img1,
+     link:"https://marico.com/"
   },
   {
     image: img2,
+     link:"https://www.unilever.com.bd/"
   },
   {
     image: img3,
+     link:"https://squaregroup.com/"
   },
   {
     image: img4,
+     link:"https://www.aci-bd.com/"
   },
   {
     image: img5,
+     link:"https://www.mgi.org/"
   },
   {
     image: img9,
+     link:"https://www.citygroup.com.bd/"
   },
   {
     image: img6,
+     link:"https://www.reckitt.com/"
   },
   {
     image: img7,
+     link:"https://www.newzealanddairybd.com/"
   },
   {
     image: img8,
+     link:"https://www.nestle.com/"
   },
   {
     image: img10,
+     link:"https://beol-bd.com/"
   },
 ];
 
@@ -64,13 +76,15 @@ const Brand = () => {
             key={index}
             className="border w-full p-4 h-40 rounded-xl shadow-lg text-center relative "
           >
-            <Image
+           <Link href={product?.link}>
+           <Image
               width={700}
               src={product?.image}
               alt=""
               height={400}
               className="w-40 h-28 mx-auto mb-4 object-cover"
             />
+           </Link>
            
           </div>
         ))}

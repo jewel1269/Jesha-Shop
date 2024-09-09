@@ -7,7 +7,8 @@ import Sidebar from "@/Components/Sidebar/Sidebar";
 import { Toaster } from 'react-hot-toast';
 import QueryClientProviderWrapper from "@/Provider/QueryClientProviderWrapper";
 import CartIcon from "@/Components/CartIcon/CartIcon";
-
+import Loader from "@/Components/Loader/Loader";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +18,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-
-  
-  
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -28,22 +26,27 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <QueryClientProviderWrapper>
-<div className=" lg:w-full lg:mb-3 ">
-  <Header/>
-  <Toaster/>
-</div>
-<div className="grid lg:grid-cols-1 gap-0 md:grid-cols-2 grid-cols-1">
-  <div className="lg:block md:block hidden lg:mt-16 "><Sidebar/></div>
-  <div className="lg:block md:block hidden lg:mt-16 "><CartIcon/></div>
-  <div className="lg:ml-72 lg:mt-0 md:mt-8 mt-28">{children}</div>
-</div>
-
-<div className="lg:ml-72 ">
- <Footer/>
-</div>
-
-</QueryClientProviderWrapper>
-
+        <Suspense fallback={<Loader />}>
+          <div className="lg:w-full lg:mb-3">
+            <Header />
+            <Toaster />
+          </div>
+          <div className="grid lg:grid-cols-1 gap-0 md:grid-cols-2 grid-cols-1">
+            <div className="lg:block md:block hidden lg:mt-16">
+              <Sidebar />
+            </div>
+            <div className="lg:block md:block hidden lg:mt-16">
+              <CartIcon />
+            </div>
+            <div className="lg:ml-72 lg:mt-0 md:mt-8 mt-28">
+                {children}
+            </div>
+          </div>
+          <div className="lg:ml-72">
+            <Footer />
+          </div>
+          </Suspense>
+        </QueryClientProviderWrapper>
       </body>
     </html>
   );

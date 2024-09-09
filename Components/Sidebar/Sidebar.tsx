@@ -37,8 +37,8 @@ const Sidebar: React.FC = () => {
           )}
         </li>
         <li>
-          <Link href="#">
-            <p className={`flex items-center ${isActive('#') ? 'text-green-500' : ''}`}>
+          <Link href="/allregular">
+            <p className={`flex items-center ${isActive('/allregular') ? 'text-green-500' : ''}`}>
               <FaTags color="purple" /> নিয়মিত
             </p>
           </Link>

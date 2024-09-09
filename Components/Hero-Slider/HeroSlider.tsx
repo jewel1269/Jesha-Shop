@@ -6,6 +6,7 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import Image from 'next/image';
 import "./styles.css"
+import Link from "next/link";
 
 // Image imports
 import slide1 from "../../Images/mobile-ja-1420en.jpg";
@@ -29,13 +30,13 @@ const HeroSlider: React.FC = () => {
         className="mySwiper mb-24"
       >
         <SwiperSlide>
-          <Image src={slide1} alt="Salads" fill style={{ objectFit: 'cover' }} />
+         <Link href="/allelectronics"> <Image src={slide1} alt="allelectronics" fill style={{ objectFit: 'cover' }} /></Link>
         </SwiperSlide>
         <SwiperSlide>
-          <Image src={slide2} alt="Pizzas" fill style={{ objectFit: 'cover' }} />
+         <Link href="/allregular"> <Image src={slide2} alt="Pizzas" fill style={{ objectFit: 'cover' }} /></Link>
         </SwiperSlide>
         <SwiperSlide>
-          <Image src={slide3} alt="Soups" fill style={{ objectFit: 'cover' }} />
+          <Link href="/allfood"><Image src={slide3} alt="allfood" fill style={{ objectFit: 'cover' }} /></Link>
         </SwiperSlide>
       </Swiper>
     </section>
