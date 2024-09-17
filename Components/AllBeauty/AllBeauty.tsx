@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { FaChevronDown, FaBars } from 'react-icons/fa';
@@ -8,9 +8,6 @@ import Link from 'next/link';
 import useAuth from '../UserAuth/useAuth';
 import toast from 'react-hot-toast';
 
-
-
-
 const fetchData = async () => {
   const { data } = await axios.get('http://localhost:5000/public/beauty');
   return data;
@@ -18,12 +15,14 @@ const fetchData = async () => {
 
 const AllBeauty: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [ammount, setAmmount ]=useState(0)
+  const [amount, setAmount] = useState(10000); // Default max amount
+  const [inStock, setInStock] = useState(false);
+  const [outOfStock, setOutOfStock] = useState(false);
   const { user } = useAuth();
   const email = user?.email;
 
-  const { data: products = [], error, isLoading, refetch:refetchCart } = useQuery({
-    queryKey: ['allfoods'],
+  const { data: products = [], error, isLoading, refetch: refetchCart } = useQuery({
+    queryKey: ['allbeauty'],
     queryFn: fetchData,
   });
 
@@ -35,9 +34,9 @@ const AllBeauty: React.FC = () => {
     try {
       const response = await axios.post('http://localhost:5000/cart', { item, email });
       console.log('Response:', response.data);
-  
+
       await refetchCart();
-  
+
       toast.success('কার্টে আইটেম যোগ করা সফল!');
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -45,15 +44,20 @@ const AllBeauty: React.FC = () => {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  
+  if (isLoading) return <div>লোড হচ্ছে...</div>;
+  if (error) return <div>ত্রুটি: {error.message}</div>;
+
+  // Filter products based on the state
+  const filteredProducts = products
+    .filter((product: any) => (inStock ? product.Availability === 'inStock' : true))
+    .filter((product: any) => (outOfStock ? product.Availability === 'outOfStock' : true))
+    .filter((product: any) => product.Price?.New <= amount);
 
   return (
     <div className="container mx-auto lg:-mt-12">
       {/* Header */}
-      <div className=" text-black rounded-xl shadow-sm shadow-black text-center py-2">
-        <h1 className="text-xl font-bold">রূপ ও নিত্য </h1>
+      <div className="text-black rounded-xl shadow-sm shadow-black text-center py-2">
+        <h1 className="text-xl font-bold">রূপ ও নিত্য</h1>
       </div>
 
       <div className="flex flex-col md:flex-row p-6">
@@ -79,14 +83,16 @@ const AllBeauty: React.FC = () => {
           {/* Collections Filter */}
           <details className="mb-4">
             <summary className="cursor-pointer flex justify-between items-center bg-gray-100 p-2 rounded">
-              Collections <FaChevronDown />
+              Categories <FaChevronDown />
             </summary>
             <div className="pl-4 mt-2">
-              <p className="cursor-pointer hover:text-orange-500">All Categories</p>
-              <p className="cursor-pointer hover:text-orange-500">OFFER</p>
-              <p className="cursor-pointer hover:text-orange-500">Sarisha Oil</p>
-              <p className="cursor-pointer hover:text-orange-500">Ghee (ঘি)</p>
-              <p className="cursor-pointer hover:text-orange-500">Dates (খেজুর)</p>
+              <Link href="/info"><p className="cursor-pointer hover:text-orange-500">অফার</p></Link>
+              <Link href="/allelectronics"><p className="cursor-pointer hover:text-orange-500">ইলেকট্রনিক্স</p></Link>
+              <Link href="/allfood"><p className="cursor-pointer hover:text-orange-500">খাবার</p></Link>
+              <Link href="/alltelivision"><p className="cursor-pointer hover:text-orange-500">টেলিভিশন</p></Link>
+              <Link href="/allbabycare"><p className="cursor-pointer hover:text-orange-500">শিশুর যত্ন</p></Link>
+              <Link href="/allbeauty"><p className="cursor-pointer hover:text-orange-500">সৌন্দর্য</p></Link>
+              <Link href="/allhealth"><p className="cursor-pointer hover:text-orange-500">স্বাস্থ্য</p></Link>
               {/* Add more categories as necessary */}
             </div>
           </details>
@@ -98,10 +104,22 @@ const AllBeauty: React.FC = () => {
             </summary>
             <div className="pl-4 mt-2">
               <label className="flex items-center mb-2">
-                <input type="checkbox" className="mr-2" /> In stock (19)
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  checked={inStock}
+                  onChange={() => setInStock(!inStock)}
+                />
+                In stock
               </label>
               <label className="flex items-center">
-                <input type="checkbox" className="mr-2" /> Out of stock (0)
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  checked={outOfStock}
+                  onChange={() => setOutOfStock(!outOfStock)}
+                />
+                Out of stock
               </label>
             </div>
           </details>
@@ -112,13 +130,13 @@ const AllBeauty: React.FC = () => {
             <input
               type="range"
               className="w-full"
-              value={ammount}
-              onChange={(e) => setAmmount(parseInt(e.target.value))}
+              value={amount}
+              onChange={(e) => setAmount(parseInt(e.target.value))}
               min="0"
               max="10000"
             />
             <div className="flex justify-between text-sm mt-2">
-              <span>৳{ammount}</span>
+              <span>৳{amount}</span>
               <span>৳10000.00</span>
             </div>
           </div>
@@ -126,31 +144,30 @@ const AllBeauty: React.FC = () => {
 
         {/* Product Listing */}
         <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.slice(0, 15).map((product:any) => (
+          {filteredProducts.slice(0, 15).map((product: any) => (
             <div key={product.id} className="border rounded-lg shadow-md p-4 relative">
-              <Link href={`/beatuty/${product._id}`}>
-              {product.isOnSale && (
-                <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                  ON SALE
-                </span>
-              )}
-              <Image
-                src={product.Image}
-                alt={product.Name}
-                width={150}
-                height={150}
-                className="object-contain mx-auto"
-              />
-              <h3 className="mt-4 text-lg font-semibold">{product.Name}</h3>
-              <p className="mt-2 text-red-500 font-bold">
-                ৳{product.Price?.New}{' '}
-                <span className="line-through text-gray-500">৳{product.Price?.Old}</span>
-              </p>
+              <Link href={`/beauty/${product._id}`}>
+                {product.isOnSale && (
+                  <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                    ON SALE
+                  </span>
+                )}
+                <Image
+                  src={product.Image}
+                  alt={product.Name}
+                  width={150}
+                  height={150}
+                  className="object-contain mx-auto"
+                />
+                <h3 className="mt-4 text-lg font-semibold">{product.Name}</h3>
+                <p className="mt-2 text-red-500 font-bold">
+                  ৳{product.Price?.New}{' '}
+                  <span className="line-through text-gray-500">৳{product.Price?.Old}</span>
+                </p>
               </Link>
-              <button onClick={()=>handleCart(product)} className="mt-4  shadow-sm shadow-black text-black px-4 py-1 rounded hover:bg-orange-600">
-                add Cart
+              <button onClick={() => handleCart(product)} className="mt-4 shadow-sm shadow-black text-black px-4 py-1 rounded hover:bg-orange-600">
+                Add to Cart
               </button>
-             
             </div>
           ))}
         </div>

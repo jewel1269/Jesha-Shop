@@ -69,13 +69,13 @@ const HomePage = () => {
       </div>
 
 {/* Charts */}
-       <div className="grid lg:grid-cols-2 gap-4 mb-4">
-        <div className="bg-white shadow-black shadow-lg p-6 rounded-lg">
+       <div className="grid lg:grid-cols-2 grid-cols-1 gap-4  mb-4">
+        <div className="bg-white w-full h-auto shadow-black shadow-lg p-6 rounded-lg">
           <h2 className="text-lg font-semibold">Total Revenue</h2>
           <Bar data={barData} />
         </div>
 
-        <div className="bg-white shadow-lg shadow-black p-6 rounded-lg">
+        <div className="bg-white w-full h-auto shadow-lg shadow-black p-6 rounded-lg">
           <h2 className="text-lg font-semibold">Profile Report</h2>
           <p>Total: $84,686k</p>
           <Line data={lineData} />

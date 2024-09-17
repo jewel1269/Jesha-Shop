@@ -161,7 +161,7 @@ const OrderDetails = () => {
         </button>
         <button
           onClick={() => setFilter("Canceled")}
-          className={`px-4 py-2 font-semibold ${
+          className={`px-4  py-2 font-semibold ${
             filter === "Canceled" ? "text-blue-600" : "text-gray-600"
           }`}
         >
@@ -170,9 +170,10 @@ const OrderDetails = () => {
       </div>
 
       {/* Orders Table */}
-      <table className="min-w-full overflow-x-auto bg-white">
-        <thead className="overflow-x-auto">
-          <tr className="overflow-x-auto">
+     <div className="overflow-x-auto ">
+     <table className="min-w-full   bg-white">
+        <thead >
+          <tr>
             <th className="py-2 px-4 text-left">Order ID</th>
             <th className="py-2 px-4 text-left">Product Name</th>
             <th className="py-2 px-4 text-left">Address</th>
@@ -181,7 +182,7 @@ const OrderDetails = () => {
             <th className="py-2 px-4 text-left">Status</th>
           </tr>
         </thead>
-        <tbody className="overflow-x-auto">
+        <tbody>
           {currentOrders.map((order) => (
             <tr className="overflow-x-auto" key={order.id}>
               <td className="py-2 px-4">#{order.id}</td>
@@ -206,6 +207,7 @@ const OrderDetails = () => {
           ))}
         </tbody>
       </table>
+     </div>
 
       {/* Pagination */}
       <div className="mt-4 flex justify-between items-center">

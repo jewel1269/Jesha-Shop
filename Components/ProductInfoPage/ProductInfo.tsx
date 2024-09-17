@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FaChevronDown, FaBars } from 'react-icons/fa';
 import img from "../../Images/Foods/fgog0100102l250.jpg"
 import img1 from "../../Images/Foods/nestle-nido-fortigrow-full-cream-milk-powder-_tin_-1kg.jpg"
@@ -124,14 +125,17 @@ const ProductInfo: React.FC = () => {
           {/* Collections Filter */}
           <details className="mb-4">
             <summary className="cursor-pointer flex justify-between items-center bg-gray-100 p-2 rounded">
-              Collections <FaChevronDown />
+            Categories <FaChevronDown />
             </summary>
             <div className="pl-4 mt-2">
-              <p className="cursor-pointer hover:text-orange-500">All Categories</p>
-              <p className="cursor-pointer hover:text-orange-500">OFFER</p>
-              <p className="cursor-pointer hover:text-orange-500">Sarisha Oil</p>
-              <p className="cursor-pointer hover:text-orange-500">Ghee (ঘি)</p>
-              <p className="cursor-pointer hover:text-orange-500">Dates (খেজুর)</p>
+             
+              <Link href="/info"><p className="cursor-pointer hover:text-orange-500">অফার</p></Link>
+              <Link href="/allelectronics"> <p className="cursor-pointer hover:text-orange-500">ইলেকট্রনিক্স </p></Link>
+              <Link href="/allfood"> <p className="cursor-pointer hover:text-orange-500">খাবার </p></Link>
+              <Link href="/alltelivision"> <p className="cursor-pointer hover:text-orange-500">টেলিভিশন</p></Link>
+              <Link href="/allbabycare"> <p className="cursor-pointer hover:text-orange-500">শিশুর যত্ন</p></Link>
+              <Link href="/allbeauty"> <p className="cursor-pointer hover:text-orange-500">সৌন্দর্য</p></Link>
+              <Link href="/allhealth"> <p className="cursor-pointer hover:text-orange-500">স্বাস্থ্য</p></Link>
               {/* Add more categories as necessary */}
             </div>
           </details>

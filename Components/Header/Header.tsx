@@ -129,47 +129,48 @@ const Header = () => {
 
               {/* Logo */}
 
-              <h1 className="lg:text-xl md:text-xl text-xl flex items-center justify-center gap-2 font-bold lg:-ml-28 ml-2">
-                <button className="lg:block md:hidden hidden">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="text-orange-600 ">
-                      {user ? (
-                        <Image
-                          width={96}
-                          height={96}
-                          className="h-8 w-8 rounded-md"
-                          src={user?.photoURL}
-                          alt="user"
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="border divide-y-2 p-2 bg-white">
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <span className="text-md">প্রোফাইল</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-md">
-                      {admin && (
-      <Link href="/dashboard">
-        <p className="text-md">Dashboard</p>
-      </Link>
-    )}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </button>
-                <Link href={"/"}>
-                  <Image
-                    width={300}
-                    height={200}
-                    src={logo}
-                    alt="logo"
-                    className="lg:h-8 h-6 w-full"
-                  />
-                </Link>
-              </h1>
+              <h1 className="lg:text-md md:text-md text-md flex items-center justify-center gap-2 font-bold lg:-ml-28 ml-2">
+  <button className="lg:block md:hidden hidden">
+    <DropdownMenu>
+      <DropdownMenuTrigger className="text-orange-600">
+        {user ? (
+          <Image
+            width={96}
+            height={96}
+            className="h-8 w-8 rounded-md"
+            src={user?.photoURL}
+            alt="user"
+          />
+        ) : (
+          ""
+        )}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="border divide-y-2 p-2 bg-white">
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <span className="text-md">প্রোফাইল</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="text-md">
+          {admin && (
+            <Link href="/dashboard">
+              <p className="text-md">Dashboard</p>
+            </Link>
+          )}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  </button>
+  <Link href="/">
+    <Image
+      width={300}
+      height={200}
+      src={logo}
+      alt="logo"
+      className="lg:h-8 h-6 w-full"
+    />
+  </Link>
+</h1>
+
 
               <div className="lg:hidden md:hidden block">
                 <div className="flex justify-between ">
