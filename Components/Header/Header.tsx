@@ -179,7 +179,7 @@ const Header = () => {
 
                     <DropdownMenu>
                       <DropdownMenuTrigger className="text-orange-600 ">
-                        {location || "স্থানে নির্বাচন করুন"}
+                        {location || "লোকেশন"}
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="border divide-y-2 p-2 bg-white">
                         <DropdownMenuLabel>স্থান</DropdownMenuLabel>
@@ -248,7 +248,7 @@ const Header = () => {
 
                 <DropdownMenu>
                   <DropdownMenuTrigger className="text-orange-600">
-                    {location || "স্থানে নির্বাচন করুন"}
+                    {location || "লোকেশন"}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="border divide-y-2 p-2 bg-white">
                     <DropdownMenuLabel>স্থান</DropdownMenuLabel>
