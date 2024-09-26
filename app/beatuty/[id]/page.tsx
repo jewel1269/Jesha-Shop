@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import useAuth from "@/Components/UserAuth/useAuth";
 
 const fetchPostById = async (id: any) => {
-  const { data } = await axios.get(`http://localhost:5000/public/beauty/${id}`);
+  const { data } = await axios.get(`https://jesha-shop-backend.vercel.app/public/beauty/${id}`);
   return data;
 };
 
@@ -34,7 +34,7 @@ const ProductDetail: React.FC = ({ params }: any) => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/cart', { item, email });
+      const response = await axios.post('https://jesha-shop-backend.vercel.app/cart', { item, email });
       console.log('Response:', response.data);
   
       await refetch(); 

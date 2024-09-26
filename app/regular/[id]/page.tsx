@@ -10,7 +10,7 @@ import useAuth from "@/Components/UserAuth/useAuth";
 
 // Fetch product data by ID
 const fetchPostById = async (id: string) => {
-  const { data } = await axios.get(`http://localhost:5000/public/regular/${id}`);
+  const { data } = await axios.get(`https://jesha-shop-backend.vercel.app/public/regular/${id}`);
   return data;
 };
 
@@ -32,7 +32,7 @@ const ProductDetail = ({ params }:any) => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/cart', { item, email });
+      const response = await axios.post('https://jesha-shop-backend.vercel.app/cart', { item, email });
       console.log('Response:', response.data);
   
       await refetchCart(); 

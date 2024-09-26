@@ -9,7 +9,7 @@ import useAuth from '../UserAuth/useAuth';
 import toast from 'react-hot-toast';
 
 const fetchData = async () => {
-  const { data } = await axios.get('http://localhost:5000/public/beauty');
+  const { data } = await axios.get('https://jesha-shop-backend.vercel.app/public/beauty');
   return data;
 };
 
@@ -32,7 +32,7 @@ const AllBeauty: React.FC = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/cart', { item, email });
+      const response = await axios.post('https://jesha-shop-backend.vercel.app/cart', { item, email });
       console.log('Response:', response.data);
 
       await refetchCart();

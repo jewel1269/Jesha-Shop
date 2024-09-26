@@ -24,7 +24,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchPostByEmail = async (email: any) => {
-  const { data } = await axios.get(`http://localhost:5000/cart/${email}`);
+  const { data } = await axios.get(`https://jesha-shop-backend.vercel.app/cart/${email}`);
   return data;
 };
 

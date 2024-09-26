@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 
 
 const fetchData = async () => {
-  const { data } = await axios.get('http://localhost:5000/public/electronics');
+  const { data } = await axios.get('https://jesha-shop-backend.vercel.app/public/electronics');
   return data;
 };
 
@@ -33,7 +33,7 @@ const AllElectronics: React.FC = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/cart', { item, email });
+      const response = await axios.post('https://jesha-shop-backend.vercel.app/cart', { item, email });
       console.log('Response:', response.data);
   
       await refetchCart();

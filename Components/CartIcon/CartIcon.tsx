@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 // For fetching cart items by email
 const fetchPostByEmail = async (email: string) => {
-    const { data } = await axios.get(`http://localhost:5000/cart/${email}`);
+    const { data } = await axios.get(`https://jesha-shop-backend.vercel.app/cart/${email}`);
     return data;
   };
   

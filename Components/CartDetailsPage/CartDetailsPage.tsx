@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 
 // Fetch cart items by email
 const fetchPostByEmail = async (email: string) => {
-  const { data } = await axios.get(`http://localhost:5000/cart/${email}`);
+  const { data } = await axios.get(`https://jesha-shop-backend.vercel.app/cart/${email}`);
   return data;
 };
 
@@ -57,7 +57,7 @@ const CartDetailsPage: React.FC = () => {
   // Handle item removal
   const handleDelete = async (id: any) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/cart/${id}`);
+      const response = await axios.delete(`https://jesha-shop-backend.vercel.app/cart/${id}`);
       if (response.status === 200) {
         toast.success("আইটেম সফলভাবে মুছে ফেলা হয়েছে!");
         refetch();
@@ -78,7 +78,7 @@ const CartDetailsPage: React.FC = () => {
     }
   
     try {
-      const response = await axios.post('http://localhost:5000/private/checkout', {
+      const response = await axios.post('https://jesha-shop-backend.vercel.app/private/checkout', {
         user: user,
         item: items,
         address: address,

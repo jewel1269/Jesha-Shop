@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/customer', { email, password });
+      const response = await axios.post('https://jesha-shop-backend.vercel.app/customer', { email, password });
       localStorage.setItem('email', email);
       console.log('লগইন সফল:', response.data);
     } catch (error) {

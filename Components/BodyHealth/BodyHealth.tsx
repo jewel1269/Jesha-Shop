@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 
   // Define the query function for fetching health items
 const fetchPosts = async () => {
-  const { data } = await axios.get('http://localhost:5000/public/health');
+  const { data } = await axios.get('https://jesha-shop-backend.vercel.app/public/health');
   return data;
 };
   
@@ -34,7 +34,7 @@ const BodyHealth = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/cart', { item, email });
+      const response = await axios.post('https://jesha-shop-backend.vercel.app/cart', { item, email });
       console.log('Response:', response.data);
   
       await refetchCart(); 
