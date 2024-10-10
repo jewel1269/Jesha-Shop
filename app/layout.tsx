@@ -5,10 +5,10 @@ import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import Sidebar from "@/Components/Sidebar/Sidebar";
 import { Toaster } from 'react-hot-toast';
-import QueryClientProviderWrapper from "@/Provider/QueryClientProviderWrapper";
 import CartIcon from "@/Components/CartIcon/CartIcon";
 import Loader from "@/Components/Loader/Loader";
 import { Suspense } from "react";
+import QueryClientProviderWrapper from "@/Provider/QueryClientProviderWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 

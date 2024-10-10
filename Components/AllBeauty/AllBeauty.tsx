@@ -8,6 +8,7 @@ import Link from 'next/link';
 import useAuth from '../UserAuth/useAuth';
 import toast from 'react-hot-toast';
 
+// Fetch data function
 const fetchData = async () => {
   const { data } = await axios.get('https://jesha-shop-backend.vercel.app/public/beauty');
   return data;
@@ -44,8 +45,13 @@ const AllBeauty: React.FC = () => {
     }
   };
 
-  if (isLoading) return <div>লোড হচ্ছে...</div>;
-  if (error) return <div>ত্রুটি: {error.message}</div>;
+  if (isLoading) {
+    return <div className="flex justify-center items-center h-screen">লোড হচ্ছে...</div>;
+  }
+
+  if (error) {
+    return <div className="flex justify-center items-center h-screen text-red-500">ত্রুটি: {error.message}</div>;
+  }
 
   // Filter products based on the state
   const filteredProducts = products
@@ -74,9 +80,7 @@ const AllBeauty: React.FC = () => {
 
         {/* Sidebar Filters */}
         <div
-          className={`w-full md:w-1/5 bg-white shadow-md p-4 rounded mb-6 md:mb-0 md:block ${
-            isFilterOpen ? 'block' : 'hidden'
-          }`}
+          className={`w-full md:w-1/5 bg-white shadow-md p-4 rounded mb-6 md:mb-0 md:block ${isFilterOpen ? 'block' : 'hidden'}`}
         >
           <h2 className="text-lg font-bold mb-4">Filters</h2>
 
@@ -93,7 +97,6 @@ const AllBeauty: React.FC = () => {
               <Link href="/allbabycare"><p className="cursor-pointer hover:text-orange-500">শিশুর যত্ন</p></Link>
               <Link href="/allbeauty"><p className="cursor-pointer hover:text-orange-500">সৌন্দর্য</p></Link>
               <Link href="/allhealth"><p className="cursor-pointer hover:text-orange-500">স্বাস্থ্য</p></Link>
-              {/* Add more categories as necessary */}
             </div>
           </details>
 
@@ -145,7 +148,7 @@ const AllBeauty: React.FC = () => {
         {/* Product Listing */}
         <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredProducts.slice(0, 15).map((product: any) => (
-            <div key={product.id} className="border rounded-lg shadow-md p-4 relative">
+            <div key={product._id} className="border rounded-lg shadow-md p-4 relative">
               <Link href={`/beauty/${product._id}`}>
                 {product.isOnSale && (
                   <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
@@ -153,7 +156,7 @@ const AllBeauty: React.FC = () => {
                   </span>
                 )}
                 <Image
-                  src={product.Image}
+                  src={product.Image || '/fallback-image.jpg'} // Fallback image
                   alt={product.Name}
                   width={150}
                   height={150}
@@ -165,7 +168,10 @@ const AllBeauty: React.FC = () => {
                   <span className="line-through text-gray-500">৳{product.Price?.Old}</span>
                 </p>
               </Link>
-              <button onClick={() => handleCart(product)} className="mt-4 shadow-sm shadow-black text-black px-4 py-1 rounded hover:bg-orange-600">
+              <button
+                onClick={() => handleCart(product)}
+                className="mt-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+              >
                 Add to Cart
               </button>
             </div>

@@ -45,6 +45,9 @@ const AllTelivision: React.FC = () => {
     }
   };
 
+    // Filter products based on the selected price range
+    const filteredProducts = products.filter((product: any) => product.Price?.New <= ammount);
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   
@@ -129,7 +132,7 @@ const AllTelivision: React.FC = () => {
 
         {/* Product Listing */}
         <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.slice(0, 15).map((product:any) => (
+          {filteredProducts.slice(0, 15).map((product:any) => (
             <div key={product.id} className="border rounded-lg shadow-md p-4 relative">
               <Link href={`/telivision/${product._id}`}>
               {product.isOnSale && (

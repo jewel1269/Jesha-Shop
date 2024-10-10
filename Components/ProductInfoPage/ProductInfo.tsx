@@ -206,3 +206,17 @@ const ProductInfo: React.FC = () => {
 };
 
 export default ProductInfo;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

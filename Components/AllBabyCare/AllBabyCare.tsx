@@ -49,6 +49,7 @@ const AllBabyCare: React.FC = () => {
   if (isLoading) return <div>লোড হচ্ছে...</div>;
   if (error) return <div>ত্রুটি: {error.message}</div>;
 
+
   // Filter products based on the state
   const filteredProducts = products
     .filter((product: any) => (inStock ? product.Availability === 'inStock' : true))

@@ -8,9 +8,6 @@ import Link from 'next/link';
 import useAuth from '../UserAuth/useAuth';
 import toast from 'react-hot-toast';
 
-
-
-
 const fetchData = async () => {
   const { data } = await axios.get('https://jesha-shop-backend.vercel.app/public/health');
   return data;
@@ -18,11 +15,11 @@ const fetchData = async () => {
 
 const AllHealth: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [ammount, setAmmount ]=useState(0)
+  const [ammount, setAmmount] = useState(10000); // Default value is set to maximum range (10,000)
   const { user } = useAuth();
   const email = user?.email;
 
-  const { data: products = [], error, isLoading, refetch:refetchCart } = useQuery({
+  const { data: products = [], error, isLoading, refetch: refetchCart } = useQuery({
     queryKey: ['Allhelath'],
     queryFn: fetchData,
   });
@@ -35,9 +32,7 @@ const AllHealth: React.FC = () => {
     try {
       const response = await axios.post('https://jesha-shop-backend.vercel.app/cart', { item, email });
       console.log('Response:', response.data);
-  
       await refetchCart();
-  
       toast.success('কার্টে আইটেম যোগ করা সফল!');
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -45,14 +40,16 @@ const AllHealth: React.FC = () => {
     }
   };
 
+  // Filter products based on the selected price range
+  const filteredProducts = products.filter((product: any) => product.Price?.New <= ammount);
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  
 
   return (
     <div className="container mx-auto lg:-mt-12">
       {/* Header */}
-      <div className=" text-black rounded-xl shadow-sm shadow-black text-center py-2">
+      <div className="text-black rounded-xl shadow-sm shadow-black text-center py-2">
         <h1 className="text-xl font-bold">ব্যক্তিগত স্বাস্থ্য ও সুরক্ষা </h1>
       </div>
 
@@ -76,13 +73,12 @@ const AllHealth: React.FC = () => {
         >
           <h2 className="text-lg font-bold mb-4">Filters</h2>
 
-          {/* Collections Filter */}
+          {/* Categories Filter */}
           <details className="mb-4">
             <summary className="cursor-pointer flex justify-between items-center bg-gray-100 p-2 rounded">
-            Categories <FaChevronDown />
+              Categories <FaChevronDown />
             </summary>
             <div className="pl-4 mt-2">
-             
               <Link href="/info"><p className="cursor-pointer hover:text-orange-500">অফার</p></Link>
               <Link href="/allelectronics"> <p className="cursor-pointer hover:text-orange-500">ইলেকট্রনিক্স </p></Link>
               <Link href="/allfood"> <p className="cursor-pointer hover:text-orange-500">খাবার </p></Link>
@@ -90,22 +86,6 @@ const AllHealth: React.FC = () => {
               <Link href="/allbabycare"> <p className="cursor-pointer hover:text-orange-500">শিশুর যত্ন</p></Link>
               <Link href="/allbeauty"> <p className="cursor-pointer hover:text-orange-500">সৌন্দর্য</p></Link>
               <Link href="/allhealth"> <p className="cursor-pointer hover:text-orange-500">স্বাস্থ্য</p></Link>
-              {/* Add more categories as necessary */}
-            </div>
-          </details>
-
-          {/* Availability Filter */}
-          <details className="mb-4">
-            <summary className="cursor-pointer flex justify-between items-center bg-gray-100 p-2 rounded">
-              Availability <FaChevronDown />
-            </summary>
-            <div className="pl-4 mt-2">
-              <label className="flex items-center mb-2">
-                <input type="checkbox" className="mr-2" /> In stock (19)
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" /> Out of stock (0)
-              </label>
             </div>
           </details>
 
@@ -129,31 +109,33 @@ const AllHealth: React.FC = () => {
 
         {/* Product Listing */}
         <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.slice(0, 15).map((product:any) => (
+          {filteredProducts.slice(0, 15).map((product: any) => (
             <div key={product.id} className="border rounded-lg shadow-md p-4 relative">
               <Link href={`/health/${product._id}`}>
-              {product.isOnSale && (
-                <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                  ON SALE
-                </span>
-              )}
-              <Image
-                src={product.Image}
-                alt={product.Name}
-                width={150}
-                height={150}
-                className="object-contain mx-auto"
-              />
-              <h3 className="mt-4 text-lg font-semibold">{product.Name}</h3>
-              <p className="mt-2 text-red-500 font-bold">
-                ৳{product.Price?.New}{' '}
-                <span className="line-through text-gray-500">৳{product.Price?.Old}</span>
-              </p>
+                {product.isOnSale && (
+                  <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                    ON SALE
+                  </span>
+                )}
+                <Image
+                  src={product.Image}
+                  alt={product.Name}
+                  width={150}
+                  height={150}
+                  className="object-contain mx-auto"
+                />
+                <h3 className="mt-4 text-lg font-semibold">{product.Name}</h3>
+                <p className="mt-2 text-red-500 font-bold">
+                  ৳{product.Price?.New}{' '}
+                  <span className="line-through text-gray-500">৳{product.Price?.Old}</span>
+                </p>
               </Link>
-              <button onClick={()=>handleCart(product)} className="mt-4  shadow-sm shadow-black text-black px-4 py-1 rounded hover:bg-orange-600">
+              <button
+                onClick={() => handleCart(product)}
+                className="mt-4 shadow-sm shadow-black text-black px-4 py-1 rounded hover:bg-orange-600"
+              >
                 add Cart
               </button>
-             
             </div>
           ))}
         </div>
