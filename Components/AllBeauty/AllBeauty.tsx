@@ -149,7 +149,7 @@ const AllBeauty: React.FC = () => {
         <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredProducts.slice(0, 15).map((product: any) => (
             <div key={product._id} className="border rounded-lg shadow-md p-4 relative">
-              <Link href={`/beauty/${product._id}`}>
+              <Link href={`/beatuty/${product._id}`}>
                 {product.isOnSale && (
                   <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
                     ON SALE
