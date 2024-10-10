@@ -8,6 +8,7 @@ import useAuth from '../UserAuth/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import LottieLoader from '../LottieLoader/LottieLoader';
 
 const fetchData = async () => {
   const { data } = await axios.get('https://jesha-shop-backend.vercel.app/public/babycare');
@@ -43,7 +44,7 @@ const Babies = () => {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className="flex justify-center items-center h-screen"><LottieLoader/></div>;;
   if (error) return <div>Error: {error.message}</div>;
   return (
     <div className="container mx-auto lg:ml-0 md:ml-0 ml-2">

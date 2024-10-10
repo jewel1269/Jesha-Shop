@@ -10,6 +10,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import useAuth from '../UserAuth/useAuth';
 import { FaShoppingCart } from 'react-icons/fa';
+import LottieLoader from '../LottieLoader/LottieLoader';
 
 // Define the query function for fetching food items
 const fetchPosts = async () => {
@@ -48,7 +49,7 @@ const Foods = () => {
   };
   
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className="flex justify-center items-center h-screen"><LottieLoader/></div>;;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

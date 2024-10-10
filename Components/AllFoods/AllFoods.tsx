@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import useAuth from '../UserAuth/useAuth';
 import toast from 'react-hot-toast';
+import LottieLoader from '../LottieLoader/LottieLoader';
 
 // Fetch products from backend
 const fetchPosts = async () => {
@@ -45,7 +46,7 @@ const AllFoods: React.FC = () => {
   // Filter products based on selected price range
   const filteredProducts = products.filter((product: any) => product.Price?.New <= ammount);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className="flex justify-center items-center h-screen"><LottieLoader/></div>;;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

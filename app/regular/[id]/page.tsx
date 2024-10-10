@@ -7,6 +7,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import useAuth from "@/Components/UserAuth/useAuth";
+import LottieLoader from "@/Components/LottieLoader/LottieLoader";
 
 // Fetch product data by ID
 const fetchPostById = async (id: string) => {
@@ -45,7 +46,7 @@ const ProductDetail = ({ params }:any) => {
   };
 
   // Loading and error handling
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className="flex justify-center items-center h-screen"><LottieLoader/></div>;;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

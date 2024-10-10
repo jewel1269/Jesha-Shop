@@ -7,6 +7,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import useAuth from "@/Components/UserAuth/useAuth";
+import LottieLoader from "@/Components/LottieLoader/LottieLoader";
 
 const fetchPostById = async (id: any) => {
   const { data } = await axios.get(`https://jesha-shop-backend.vercel.app/public/health/${id}`);
@@ -46,7 +47,7 @@ const HealthDetail: React.FC = ({ params }: any) => {
   };
 
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className="flex justify-center items-center h-screen"><LottieLoader/></div>;;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import "./Cart.css";
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import LottieLoader from '../LottieLoader/LottieLoader';
 
 
 
@@ -111,7 +112,7 @@ const CartDetailsPage: React.FC = () => {
   
 
   if (loading) {
-    return <p>লোড হচ্ছে...</p>;
+    return <div className="flex justify-center items-center h-screen"><LottieLoader/></div>;;
   }
 
   if (isLoading) {
