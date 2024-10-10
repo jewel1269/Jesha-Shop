@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import useAuth from '../UserAuth/useAuth';
 import toast from 'react-hot-toast';
+import LottieLoader from '../LottieLoader/LottieLoader';
 
 // Fetch data function
 const fetchData = async () => {
@@ -46,7 +47,7 @@ const AllBeauty: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div className="flex justify-center items-center h-screen">লোড হচ্ছে...</div>;
+    return <div className="flex justify-center items-center h-screen"><LottieLoader/></div>;
   }
 
   if (error) {
